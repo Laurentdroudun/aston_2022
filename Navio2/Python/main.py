@@ -29,7 +29,7 @@ from Calypso import init_Calypso,wind
 
 from threading import Thread
 
-class state() :
+class boat_state() :
 	def __init__(self,x,y,vx,vy,vz,theta,x_wind,y_wind) :
 		self.x=x
 		self.y=y
@@ -43,30 +43,30 @@ class state() :
 
 
 def th_gps(ubl) :
-	while not s_state.end :
+	while not b_state.end :
 		gpss=gps(ubl)
 		if gpss != None :
-			s_state.x,s_state.y=gpss[0],gpss[1]
+			b_state.x,b_state.y=gpss[0],gpss[1]
 
 def th_yaw(imu) :
-	while not s_state.end :
-		s_state.theta=yaw(imu)
+	while not b_state.end :
+		b_state.theta=yaw(imu)
 
 def th_vit(imu) :
-	while not s_state.end :
+	while not b_state.end :
 		t0=time.time()
 
 		acc,gyro,mag=acc_gyr_mag(imu)
 
 		dt=time.time()-t0
 
-		s_state.vx=s_state.vx+acc[0]*dt
-		s_state.vy=s_state.vy+acc[1]*dt
-		s_state.vz=s_state.vz+acc[2]*dt
+		b_state.vx=b_state.vx+acc[0]*dt
+		b_state.vy=b_state.vy+acc[1]*dt
+		b_state.vz=b_state.vz+acc[2]*dt
 
 def th_wind(dev) :
-	while not s_state.end :
-		s_state.x_wind,s_state.y_wind=wind(dev)[0],wind(dev)[1]
+	while not b_state.end :
+		b_state.x_wind,b_state.y_wind=wind(dev)[0],wind(dev)[1]
 
 if __name__ == "__main__" :
 
@@ -78,13 +78,11 @@ if __name__ == "__main__" :
 	lsm,mpu=init_imu_lsm(),init_imu_mpu()
 #	dev=init_Calypso()
 
-	s_state=state(0,0,0,0,0,0,0,0)
+	b_state=boat_state(0,0,0,0,0,0,0,0)
+
 	#Threads :
 	threads=[]
-	# start_time=perf_counter()
-
 	thread_gps=Thread(None,th_gps,args=(ubl,))
-	# thread_servo=Thread(None,th_servo,piece_pin,angle)
 	thread_yaw=Thread(None,th_yaw,args=(lsm,))
 #	thread_wind=Thread(None,th_wind,args=(dev,))
 	thread_vit=Thread(None,th_vit,args=(mpu,))
@@ -97,14 +95,14 @@ if __name__ == "__main__" :
 
 
 	#Données :
-	while not s_state.end :
-		#print("x : ", s_state.x)
-		#print("y : ", s_state.y)
-		print("vx :", s_state.vx)
-		print("vy :", s_state.vy)
-		print("vz :", s_state.vz)
-		#print("theta : ", s_state.theta)
-		#print("x_wind : ",s_state.x_wind)
-		#print("y_wind : ", s_state.y_wind)
+	while not b_state.end :
+		#print("x : ", b_state.x)
+		#print("y : ", b_state.y)
+		print("vx :", b_state.vx)
+		print("vy :", b_state.vy)
+		print("vz :", b_state.vz)
+		#print("theta : ", b_state.theta)
+		#print("x_wind : ",b_state.x_wind)
+		#print("y_wind : ", b_state.y_wind)
 		print("____________________")
 		time.sleep(0.5)

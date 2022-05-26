@@ -60,7 +60,7 @@ if __name__ == "__main__" :
             tab_mag.append(m9m)
             time.sleep(dt)
             if t%60==0 :
-                print("30s écoulées")
+                print("30s")
         tab_mag=array(tab_mag)
         print("Data collected")
         offset_x=mean(tab_mag[:,0])

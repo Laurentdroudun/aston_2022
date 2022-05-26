@@ -123,8 +123,8 @@ if __name__ == "__main__":
     dev.disconnect()
 """
 
-def init_Calypso(mac_addr="D8:2F:C8:9A:F8:A7") :
-    #
+def init_Calypso(mac_addr="D8:2F:C8:9A:F8:A7") :                
+    
     dev = btle.Peripheral(mac_addr, "random")
     dev.setDelegate(delegateNotify())
     dataService = dev.getServiceByUUID(btle.UUID(DATA_SERVICE))
@@ -147,8 +147,8 @@ def wind(dev) :
         return(dev.delegate.getWind())
     except:
         return(100000000,100000000)
-    # if(dev.delegate.getBattery() != 0):
-    #     print(dev.delegate.getBattery())
+     # if(dev.delegate.getBattery() != 0):
+     #     print(dev.delegate.getBattery())
 
 
     # print('Turning off notification')
