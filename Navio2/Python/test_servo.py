@@ -13,9 +13,6 @@ if __name__=="__main__" :
     with navio2.pwm.PWM(PWM_OUTPUT) as pwm :
         pwm.set_period(50)
         pwm.enable()
-        #angle = -angle/180*pi+90/180*pi
-        #offset = 3/180*pi #correction avec un offset de 3°
-        #turn=((angle-b)/a-offset)
         #Faire tourner :
         t=[0.8,0.95,1.173,1.405,1.637,1.872,2.105]
         #print("Bouge")
