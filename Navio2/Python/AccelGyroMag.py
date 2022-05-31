@@ -34,7 +34,7 @@ def acc_gyr_mag(imu):
 	# print ("Acc:", "{:+7.3f}".format(m9a[0]), "{:+7.3f}".format(m9a[1]), "{:+7.3f}".format(m9a[2]),)
 	# print (" Gyr:", "{:+8.3f}".format(m9g[0]), "{:+8.3f}".format(m9g[1]), "{:+8.3f}".format(m9g[2]),)
 	# print (" Mag:", "{:+7.3f}".format(m9m[0]), "{:+7.3f}".format(m9m[1]), "{:+7.3f}".format(m9m[2]))
-	return m9a
+	return m9a,m9g,m9m
 
 
 def yaw(imu) :
