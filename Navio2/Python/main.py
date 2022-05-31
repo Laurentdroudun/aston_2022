@@ -96,14 +96,16 @@ if __name__ == "__main__" :
 	for t in threads :
 		t.start()
 
-	rasp=box(pos=vector(0,0,0),length=4,height=1,width=2,color=color.green)
+	scene=canvas(width=200,height=200,title='Scene')
+	rasp=box(canvas=scene,pos=vector(0,0,0),length=4,height=1,width=2,color=color.green)
 	#Données :
 	while not b_state.end :
 		print("x : ", b_state.x)
 		print("y : ", b_state.y)
 		# rasp.pos=vector(b_state.x,b_state.y,0)
 		rasp.axis=vector(b_state.roll,b_state.pitch,b_state.yaw)
-		rasp=box(pos=vector(0,0,0),axis=rasp.axis,length=4,height=1,width=2,color=color.green)
+		rasp=box(canvas=scene,pos=vector(0,0,0),axis=rasp.axis,length=4,height=1,width=2,color=color.green)
+		canvas
 		# print("vx :", b_state.vx)
 		# print("vy :", b_state.vy)
 		# print("vz :", b_state.vz)
