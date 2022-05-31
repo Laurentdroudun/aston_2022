@@ -13,7 +13,7 @@ import math
 from bluepy import btle
 import spidev
 
-from Servo import servo  								#servo(piece_pin,angle)
+from Servo_laulo import servo  								#servo(piece_pin,angle)
 from LED import led										#led(color)
 from GPS import gps										#gps(ubl)
 from GPS import init_gps								#init_gps() renvoie ubl
