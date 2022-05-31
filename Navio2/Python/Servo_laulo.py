@@ -31,6 +31,6 @@ def servo(component,angle) :                #component : "Sail" or "Rudder"
             
             while True :
                 pwm.set_duty_cycle(p0)
-        if component=="Rudder" :
-            #Setup values 
-            break
+        # if component=="Rudder" :
+        #     #Setup values 
+        #     continue
