@@ -81,7 +81,7 @@ if __name__ == "__main__" :
 	lsm,mpu=init_imu_lsm(),init_imu_mpu()
 #	dev=init_Calypso()
 
-	b_state=boat_state(0,0,0,0,0,0,0,0)
+	b_state=boat_state(0,0,0,0,0,0,0,0,0,0)
 
 	#Threads :
 	threads=[]
