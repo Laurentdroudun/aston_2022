@@ -1,14 +1,16 @@
 import sys, time
 
-import navio.adc
-import navio.util
+import navio2.adc
+import navio2.util
 
-navio.util.check_apm()
+navio2.util.check_apm()
 
-adc = navio.adc.ADC()
-results = [0] * adc.channel_count
+def init_adc() :
+    adc = navio2.adc.ADC()
+    results = [0] * adc.channel_count
+    return adc,results
 
-while (True):
+def voltage(adc,results):
     s = ''
     for i in range (0, adc.channel_count):
         results[i] = adc.read(i)

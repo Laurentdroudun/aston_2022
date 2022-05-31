@@ -8,10 +8,6 @@ navio2.util.check_apm()
 
 led = navio2.leds.Led()
 
-led.setColor('Yellow')
-print ("LED is yellow")
-time.sleep(1)
-
 while (True):
 
     led.setColor('Green')
