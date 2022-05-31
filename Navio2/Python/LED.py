@@ -1,12 +1,12 @@
 import sys
 
-import navio.leds
+import navio2.leds
 import time
-import navio.util
+import navio2.util
 
-navio.util.check_apm()
+navio2.util.check_apm()
 
-led = navio.leds.Led()
+led = navio2.leds.Led()
 
 led.setColor('Yellow')
 print ("LED is yellow")
