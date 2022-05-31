@@ -22,7 +22,6 @@ from ADC import init_adc								#renvoie adc et results
 from AccelGyroMag import acc_gyr_mag,roll,pitch,yaw		#imu(sensor='lsm')
 from AccelGyroMag import init_imu_lsm					#renvoie imu comme lsm
 from AccelGyroMag import init_imu_mpu					#renvoie imu comme mpu
-from AccelGyroMag import vit
 import Calypso
 from Calypso import init_Calypso,wind
 
