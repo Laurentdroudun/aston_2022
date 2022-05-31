@@ -35,6 +35,7 @@ def acc_gyr_mag(imu):
 	# print (" Mag:", "{:+7.3f}".format(m9m[0]), "{:+7.3f}".format(m9m[1]), "{:+7.3f}".format(m9m[2]))
 	return m9a
 
+
 def yaw(imu) :
 	m9a, m9g, m9m = acc_gyr_mag(imu)
 	yaw=atan2(m9m[0],m9m[1])*180/pi
