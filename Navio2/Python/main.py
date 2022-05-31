@@ -24,7 +24,7 @@ from AccelGyroMag import init_imu_lsm					#renvoie imu comme lsm
 from AccelGyroMag import init_imu_mpu					#renvoie imu comme mpu
 import Calypso
 from Calypso import init_Calypso,wind
-
+from vpython import *
 
 from threading import Thread
 
@@ -62,7 +62,7 @@ def th_vit(imu) :
 		acc,gyro,mag=acc_gyr_mag(imu)
 
 		dt=time.time()-t0
-
+		print(acc,",",b_state.vx)
 		b_state.vx=b_state.vx+acc[0]*dt
 		b_state.vy=b_state.vy+acc[1]*dt
 		b_state.vz=b_state.vz+acc[2]*dt
@@ -103,6 +103,7 @@ if __name__ == "__main__" :
 		print("y : ", b_state.y)
 		# rasp.pos=vector(b_state.x,b_state.y,0)
 		rasp.axis=vector(b_state.roll,b_state.pitch,b_state.yaw)
+		rasp=box(pos=vector(0,0,0),axis=rasp.axis,length=4,height=1,width=2,color=color.green)
 		# print("vx :", b_state.vx)
 		# print("vy :", b_state.vy)
 		# print("vz :", b_state.vz)
