@@ -121,7 +121,6 @@ if __name__ == "__main__" :
 		    conn, addr = s.accept()
 		    with conn:
 		    	loc=[b_state.x,b_state.y]
-		        print(f"Connected by {addr}")
 		        while True:
 		        	data=struct.pack('10f',*loc)
 		        	conn.sendall(data)
