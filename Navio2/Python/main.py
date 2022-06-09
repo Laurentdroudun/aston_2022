@@ -12,7 +12,7 @@ import struct
 import math
 from bluepy import btle
 import spidev
-
+import socket
 from Servo_laulo import servo  								#servo(piece_pin,angle)
 # from LED import led										#led(color)
 from GPS import gps										#gps(ubl)
@@ -27,6 +27,9 @@ from Calypso import init_Calypso,wind
 from vpython import *
 
 from threading import Thread
+
+PORT = 65432
+HOST = "127.0.0.1"
 
 class boat_state() :
 	def __init__(self,x,y,vx,vy,vz,roll,pitch,yaw,x_wind,y_wind) :
@@ -62,7 +65,6 @@ def th_vit(imu) :
 		acc,gyro,mag=acc_gyr_mag(imu)
 
 		dt=time.time()-t0
-		print(acc,",",b_state.vx)
 		b_state.vx=b_state.vx+acc[0]*dt
 		b_state.vy=b_state.vy+acc[1]*dt
 		b_state.vz=b_state.vz+acc[2]*dt
@@ -70,6 +72,17 @@ def th_vit(imu) :
 def th_wind(dev) :
 	while not b_state.end :
 		b_state.x_wind,b_state.y_wind=wind(dev)[0],wind(dev)[1]
+
+def th_serv(PORT,HOST) :
+	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+	    s.bind((HOST, PORT))
+	    s.listen()
+	    conn, addr = s.accept()
+	    with conn:
+	        print(f"Connected by {addr}")
+	        while True:
+	        	data=struct.pack('10f',*b_state)
+	            conn.sendall(data)
 
 if __name__ == "__main__" :
 
@@ -105,7 +118,7 @@ if __name__ == "__main__" :
 		# rasp.pos=vector(b_state.x,b_state.y,0)
 		rasp.axis=vector(b_state.roll,b_state.pitch,b_state.yaw)
 		rasp=box(canvas=scene,pos=vector(0,0,0),axis=rasp.axis,length=4,height=1,width=2,color=color.green)
-		canvas
+		
 		# print("vx :", b_state.vx)
 		# print("vy :", b_state.vy)
 		# print("vz :", b_state.vz)
