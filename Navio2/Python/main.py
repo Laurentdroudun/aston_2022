@@ -120,8 +120,9 @@ if __name__ == "__main__" :
 			s.listen()
 			conn, addr = s.accept()
 			with conn:
-				loc=[b_state.x,b_state.y]
 				while True:
+					loc=[b_state.x,b_state.y]
+					print(loc)
 					data=struct.pack('2f',*loc)
 					conn.sendall(data)
 		# rasp.pos=vector(b_state.x,b_state.y,0)
