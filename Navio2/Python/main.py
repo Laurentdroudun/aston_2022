@@ -115,6 +115,7 @@ if __name__ == "__main__" :
 	# rasp=box(canvas=scene,pos=vector(0,0,0),length=4,height=1,width=2,color=color.green)
 	#Données :
 	while not b_state.end :
+		print(b_state)
 		with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 		    s.bind((HOST, PORT))
 		    s.listen()
