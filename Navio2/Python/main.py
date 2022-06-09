@@ -104,7 +104,7 @@ if __name__ == "__main__" :
 	thread_gps=Thread(None,th_gps,args=(ubl,))
 	thread_RPY=Thread(None,th_RPY,args=(mpu,))
 #	thread_wind=Thread(None,th_wind,args=(dev,))
-	thread_vit=Thread(None,th_vit,args=(mpu,))
+	thread_vit=Thread(None,th_vit,args=(lsm,))
 	# thread_server=Thread(None,th_serv,args=(PORT,HOST,))
 #	threads.append(thread_wind)
 	threads.append(thread_RPY)
