@@ -61,16 +61,16 @@ def th_RPY(imu) :
 		b_state.pitch=pitch(imu)
 		b_state.yaw=yaw(imu)
 
-def th_vit(imu) :
-	while not b_state.end :
-		t0=time.time()
+# def th_vit(imu) :
+# 	while not b_state.end :
+# 		t0=time.time()
 
-		acc,gyro,mag=acc_gyr_mag(imu)
+# 		acc,gyro,mag=acc_gyr_mag(imu)
 
-		dt=time.time()-t0
-		b_state.vx=b_state.vx+acc[0]*dt
-		b_state.vy=b_state.vy+acc[1]*dt
-		b_state.vz=b_state.vz+acc[2]*dt
+# 		dt=time.time()-t0
+# 		b_state.vx=b_state.vx+acc[0]*dt
+# 		b_state.vy=b_state.vy+acc[1]*dt
+# 		b_state.vz=b_state.vz+acc[2]*dt
 
 def th_wind(dev) :
 	while not b_state.end :
@@ -102,15 +102,15 @@ if __name__ == "__main__" :
 	#Threads :
 	threads=[]
 	thread_gps=Thread(None,th_gps,args=(ubl,))
-	thread_RPY=Thread(None,th_RPY,args=(mpu,))
+	thread_RPY=Thread(None,th_RPY,args=(lsm,))
 #	thread_wind=Thread(None,th_wind,args=(dev,))
-	thread_vit=Thread(None,th_vit,args=(lsm,))
+	# thread_vit=Thread(None,th_vit,args=(mpu,))
 	# thread_server=Thread(None,th_serv,args=(PORT,HOST,))
 #	threads.append(thread_wind)
 	threads.append(thread_RPY)
 	# threads.append(thread_server)
 	threads.append(thread_gps)
-	threads.append(thread_vit)
+	# threads.append(thread_vit)
 	for t in threads :
 		t.start()
 
