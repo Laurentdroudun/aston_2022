@@ -102,22 +102,22 @@ if __name__ == "__main__" :
 	thread_RPY=Thread(None,th_RPY,args=(lsm,))
 #	thread_wind=Thread(None,th_wind,args=(dev,))
 	thread_vit=Thread(None,th_vit,args=(mpu,))
+	thread_server=Thread(None,th_serv,args=(PORT,HOST,))
 #	threads.append(thread_wind)
 	threads.append(thread_RPY)
+	threads.append(thread_server)
 	threads.append(thread_gps)
 	threads.append(thread_vit)
 	for t in threads :
 		t.start()
 
-	scene=canvas(width=200,height=200,title='Scene')
-	rasp=box(canvas=scene,pos=vector(0,0,0),length=4,height=1,width=2,color=color.green)
+	# scene=canvas(width=200,height=200,title='Scene')
+	# rasp=box(canvas=scene,pos=vector(0,0,0),length=4,height=1,width=2,color=color.green)
 	#Données :
 	while not b_state.end :
-		print("x : ", b_state.x)
-		print("y : ", b_state.y)
 		# rasp.pos=vector(b_state.x,b_state.y,0)
-		rasp.axis=vector(b_state.roll,b_state.pitch,b_state.yaw)
-		rasp=box(canvas=scene,pos=vector(0,0,0),axis=rasp.axis,length=4,height=1,width=2,color=color.green)
+		# rasp.axis=vector(b_state.roll,b_state.pitch,b_state.yaw)
+		# rasp=box(canvas=scene,pos=vector(0,0,0),axis=rasp.axis,length=4,height=1,width=2,color=color.green)
 		
 		# print("vx :", b_state.vx)
 		# print("vy :", b_state.vy)
