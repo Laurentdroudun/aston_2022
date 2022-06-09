@@ -73,16 +73,16 @@ def th_wind(dev) :
 	while not b_state.end :
 		b_state.x_wind,b_state.y_wind=wind(dev)[0],wind(dev)[1]
 
-def th_serv(PORT,HOST) :
-	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-	    s.bind((HOST, PORT))
-	    s.listen()
-	    conn, addr = s.accept()
-	    with conn:
-	        print(f"Connected by {addr}")
-	        while True:
-	        	data=struct.pack('10f',*b_state)
-	        	conn.sendall(data)
+# def th_serv(PORT,HOST) :
+# 	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+# 	    s.bind((HOST, PORT))
+# 	    s.listen()
+# 	    conn, addr = s.accept()
+# 	    with conn:
+# 	        print(f"Connected by {addr}")
+# 	        while True:
+# 	        	data=struct.pack('10f',*b_state)
+# 	        	conn.sendall(data)
 
 if __name__ == "__main__" :
 
@@ -102,10 +102,10 @@ if __name__ == "__main__" :
 	thread_RPY=Thread(None,th_RPY,args=(lsm,))
 #	thread_wind=Thread(None,th_wind,args=(dev,))
 	thread_vit=Thread(None,th_vit,args=(mpu,))
-	thread_server=Thread(None,th_serv,args=(PORT,HOST,))
+	# thread_server=Thread(None,th_serv,args=(PORT,HOST,))
 #	threads.append(thread_wind)
 	threads.append(thread_RPY)
-	threads.append(thread_server)
+	# threads.append(thread_server)
 	threads.append(thread_gps)
 	threads.append(thread_vit)
 	for t in threads :
@@ -115,11 +115,20 @@ if __name__ == "__main__" :
 	# rasp=box(canvas=scene,pos=vector(0,0,0),length=4,height=1,width=2,color=color.green)
 	#Données :
 	while not b_state.end :
+		with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+	    s.bind((HOST, PORT))
+	    s.listen()
+	    conn, addr = s.accept()
+	    with conn:
+	        print(f"Connected by {addr}")
+	        while True:
+	        	data=struct.pack('10f',*b_state)
+	        	conn.sendall(data)
 		# rasp.pos=vector(b_state.x,b_state.y,0)
 		# rasp.axis=vector(b_state.roll,b_state.pitch,b_state.yaw)
 		# rasp=box(canvas=scene,pos=vector(0,0,0),axis=rasp.axis,length=4,height=1,width=2,color=color.green)
-		print("x :", b_state.x)
-		print("y :", b_state.y)
+		# print("x :", b_state.x)
+		# print("y :", b_state.y)
 		# print("vx :", b_state.vx)
 		# print("vy :", b_state.vy)
 		# print("vz :", b_state.vz)
