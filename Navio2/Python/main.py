@@ -29,7 +29,7 @@ from vpython import *
 from threading import Thread
 
 PORT = 65432
-HOST = "127.0.0.1"
+HOST = "navio.local"
 
 class boat_state() :
 	def __init__(self,x,y,vx,vy,vz,roll,pitch,yaw,x_wind,y_wind) :
