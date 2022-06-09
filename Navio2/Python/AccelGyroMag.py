@@ -44,7 +44,7 @@ def yaw(imu) :
 
 def roll(imu) :
 	m9a, m9g, m9m = acc_gyr_mag(imu)
-	roll=atan2(m9m[1],m9m[2])*180/pi
+	roll=atan2(m9m[2],m9m[1])*180/pi
 	return(roll)
 
 def pitch(imu) :
