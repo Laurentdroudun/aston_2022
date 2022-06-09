@@ -102,7 +102,7 @@ if __name__ == "__main__" :
 	#Threads :
 	threads=[]
 	thread_gps=Thread(None,th_gps,args=(ubl,))
-	thread_RPY=Thread(None,th_RPY,args=(lsm,))
+	thread_RPY=Thread(None,th_RPY,args=(mpu,))
 #	thread_wind=Thread(None,th_wind,args=(dev,))
 	thread_vit=Thread(None,th_vit,args=(mpu,))
 	# thread_server=Thread(None,th_serv,args=(PORT,HOST,))
