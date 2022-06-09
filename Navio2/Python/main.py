@@ -115,15 +115,15 @@ if __name__ == "__main__" :
 	# rasp=box(canvas=scene,pos=vector(0,0,0),length=4,height=1,width=2,color=color.green)
 	#Données :
 	while not b_state.end :
-		print(b_state)
 		with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 		    s.bind((HOST, PORT))
 		    s.listen()
 		    conn, addr = s.accept()
 		    with conn:
+		    	loc=[b_state.x,b_state.y]
 		        print(f"Connected by {addr}")
 		        while True:
-		        	data=struct.pack('10f',*b_state)
+		        	data=struct.pack('10f',*loc)
 		        	conn.sendall(data)
 		# rasp.pos=vector(b_state.x,b_state.y,0)
 		# rasp.axis=vector(b_state.roll,b_state.pitch,b_state.yaw)
