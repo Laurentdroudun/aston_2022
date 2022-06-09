@@ -1,7 +1,7 @@
 from vpython import *
 import socket
 import struct
-HOST = "127.0.0.1"  # The server's hostname or IP address
+HOST = "navio.local"  # The server's hostname or IP address
 PORT = 65432  # The port used by the server
 
 if __name__ == "__main__" :
@@ -12,6 +12,7 @@ if __name__ == "__main__" :
 
 	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 	    s.connect((HOST, PORT))
-	    data = s.recv(1024)
-	    b_state=struct.unpack('10f',data)
-	    print(b_state)
+	    while True :
+		    data = s.recv(1024)
+		    loc=struct.unpack('2f',data)
+		    print(loc)
