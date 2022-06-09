@@ -28,6 +28,9 @@ from vpython import *
 
 from threading import Thread
 
+from signal import signal, SIGPIPE, SIG_DFL 
+signal(SIGPIPE, SIG_DFL) 
+
 PORT = 65432
 HOST = "navio.local"
 
