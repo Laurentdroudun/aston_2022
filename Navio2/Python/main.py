@@ -82,7 +82,7 @@ def th_serv(PORT,HOST) :
 	        print(f"Connected by {addr}")
 	        while True:
 	        	data=struct.pack('10f',*b_state)
-	            conn.sendall(data)
+	        	conn.sendall(data)
 
 if __name__ == "__main__" :
 
