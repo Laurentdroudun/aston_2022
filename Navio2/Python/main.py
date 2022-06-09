@@ -118,7 +118,8 @@ if __name__ == "__main__" :
 		# rasp.pos=vector(b_state.x,b_state.y,0)
 		# rasp.axis=vector(b_state.roll,b_state.pitch,b_state.yaw)
 		# rasp=box(canvas=scene,pos=vector(0,0,0),axis=rasp.axis,length=4,height=1,width=2,color=color.green)
-		
+		print("x :", b_state.x)
+		print("y :", b_state.y)
 		# print("vx :", b_state.vx)
 		# print("vy :", b_state.vy)
 		# print("vz :", b_state.vz)
