@@ -40,14 +40,14 @@ def acc_gyr_mag(imu):
 def yaw(imu) :
 	m9a, m9g, m9m = acc_gyr_mag(imu)
 	yaw=atan2(m9m[0],m9m[1])*180/pi
-	return("YAW :",yaw)
+	return(yaw)
 
 def roll(imu) :
 	m9a, m9g, m9m = acc_gyr_mag(imu)
 	roll=atan2(m9m[1],m9m[2])*180/pi
-	return("ROLL :",roll)
+	return(roll)
 
 def pitch(imu) :
 	m9a, m9g, m9m = acc_gyr_mag(imu)
 	pitch=atan2(m9m[2],m9m[0])*180/pi
-	return("PITCH :",pitch)
+	return(pitch)
