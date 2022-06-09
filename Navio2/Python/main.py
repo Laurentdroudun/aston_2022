@@ -128,6 +128,7 @@ if __name__ == "__main__" :
 					print(loc)
 					data=struct.pack('2f',*loc)
 					conn.sendall(data)
+					time.sleep(1)
 		# rasp.pos=vector(b_state.x,b_state.y,0)
 		# rasp.axis=vector(b_state.roll,b_state.pitch,b_state.yaw)
 		# rasp=box(canvas=scene,pos=vector(0,0,0),axis=rasp.axis,length=4,height=1,width=2,color=color.green)
