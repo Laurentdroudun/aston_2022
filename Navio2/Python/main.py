@@ -130,7 +130,7 @@ if __name__ == "__main__" :
 					try :
 						data=struct.pack('3f',*r_p_y)
 						conn.sendall(data)
-						time.sleep(0.2)
+						time.sleep(0.3)
 					except :
 						continue
 		# rasp.pos=vector(b_state.x,b_state.y,0)
