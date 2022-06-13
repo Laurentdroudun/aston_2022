@@ -51,3 +51,10 @@ def pitch(imu) :
 	m9a, m9g, m9m = acc_gyr_mag(imu)
 	pitch=atan2(m9m[2],m9m[0])*180/pi
 	return(pitch)
+
+if __name__=="__main__" :
+	imu=init_imu_lsm()
+	print("Roll :",roll(imu))
+	print("Pitch :", pitch(imu))
+	print('Yaw :',yaw(imu))
+	time.sleep(0.5)
