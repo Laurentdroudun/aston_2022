@@ -126,6 +126,7 @@ if __name__ == "__main__" :
 			with conn:
 				while True:
 					r_p_y=[b_state.roll,b_state.pitch,b_state.yaw]
+					print(r_p_y)
 					data=struct.pack('3f',*r_p_y)
 					conn.sendall(data)
 					time.sleep(0.1)
