@@ -46,20 +46,20 @@ def yaw(imu) :
 def roll(imu) :
 	m9a, m9g, m9m = acc_gyr_mag(imu)
 	# roll=atan2(m9m[2],m9m[1])*180/pi
-	roll=180*atan2(m9a[1],sqrt(m9a[0]**2+m9a[2]**2))/pi
+	roll=180*atan2(-m9a[0],sqrt(m9a[1]**2+m9a[2]**2))/pi
 	return(roll)
 
 def pitch(imu) :
 	m9a, m9g, m9m = acc_gyr_mag(imu)
 	# pitch=atan2(m9m[2],m9m[0])*180/pi
-	pitch=180*atan2(m9a[0],sqrt(m9a[1]**2+m9a[2]**2))/pi
+	pitch=180*atan2(m9a[1],sqrt(m9a[0]**2+m9a[2]**2))/pi
 	return(pitch)
 
 def rpy(imu) :
 	m9a, m9g, m9m = acc_gyr_mag(imu)
 	roll=180*atan2(m9a[1],sqrt(m9a[0]**2+m9a[2]**2))/pi
 	pitch=180*atan2(m9a[0],sqrt(m9a[1]**2+m9a[2]**2))/pi
-	mag_x=m9m[0]*cos(pitch)+m9m[2]*sin(roll)*sin(pitch)+m9m[2]*cos(roll)*sin(pitch)
+	mag_x=m9m[0]*cos(pitch)+m9m[1]*sin(roll)*sin(pitch)+m9m[2]*cos(roll)*sin(pitch)
 	mag_y=m9m[1]*cos(roll)-m9m[2]*sin(roll)
 	yaw=180*atan2(-mag_y,mag_x)/pi
 	return roll,pitch,yaw
