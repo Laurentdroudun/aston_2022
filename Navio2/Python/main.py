@@ -58,9 +58,6 @@ def th_gps(ubl) :
 def th_RPY(imu) :
 	while not b_state.end :
 		roll,pitch,yaw=rpy(imu)
-		print("Roll :",roll)
-		print("Pitch :", pitch)
-		print('Yaw :',yaw)
 		b_state.roll=roll
 		b_state.pitch=pitch
 		b_state.yaw=yaw
@@ -129,6 +126,7 @@ if __name__ == "__main__" :
 			with conn:
 				while True:
 					rpy=[b_state.roll,b_state.pitch,b_state.yaw]
+					print(rpy)
 					data=struct.pack('3f',*rpy)
 					conn.sendall(data)
 					time.sleep(0.1)
