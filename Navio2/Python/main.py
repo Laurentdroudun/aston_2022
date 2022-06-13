@@ -19,7 +19,7 @@ from GPS import gps										#gps(ubl)
 from GPS import init_gps								#init_gps() renvoie ubl
 from ADC import voltage 								#voltage(adc,results)
 from ADC import init_adc								#renvoie adc et results 
-from AccelGyroMag import acc_gyr_mag,roll,pitch,yaw		#imu(sensor='lsm')
+from AccelGyroMag import acc_gyr_mag,roll,pitch,yaw,rpy		#imu(sensor='lsm')
 from AccelGyroMag import init_imu_lsm					#renvoie imu comme lsm
 from AccelGyroMag import init_imu_mpu					#renvoie imu comme mpu
 import Calypso
@@ -125,7 +125,6 @@ if __name__ == "__main__" :
 			with conn:
 				while True:
 					rpy=[b_state.roll,b_state.pitch,b_state.yaw]
-					print(rpy)
 					data=struct.pack('3f',*rpy)
 					conn.sendall(data)
 					time.sleep(0.1)
