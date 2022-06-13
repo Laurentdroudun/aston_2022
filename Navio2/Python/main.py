@@ -127,9 +127,12 @@ if __name__ == "__main__" :
 				while True:
 					r_p_y=[b_state.roll,b_state.pitch,b_state.yaw]
 					print(r_p_y)
-					data=struct.pack('3f',*r_p_y)
-					conn.sendall(data)
-					time.sleep(0.2)
+					try :
+						data=struct.pack('3f',*r_p_y)
+						conn.sendall(data)
+						time.sleep(0.2)
+					except :
+						continue
 		# rasp.pos=vector(b_state.x,b_state.y,0)
 		# rasp.axis=vector(b_state.roll,b_state.pitch,b_state.yaw)
 		# rasp=box(canvas=scene,pos=vector(0,0,0),axis=rasp.axis,length=4,height=1,width=2,color=color.green)
