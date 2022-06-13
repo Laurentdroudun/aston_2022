@@ -57,9 +57,10 @@ def th_gps(ubl) :
 
 def th_RPY(imu) :
 	while not b_state.end :
-		b_state.roll=roll(imu)
-		b_state.pitch=pitch(imu)
-		b_state.yaw=yaw(imu)
+		roll,pitch,yaw=rpy(imu)
+		b_state.roll=roll
+		b_state.pitch=pitch
+		b_state.yaw=yaw
 
 # def th_vit(imu) :
 # 	while not b_state.end :
