@@ -53,8 +53,9 @@ def pitch(imu) :
 	return(pitch)
 
 if __name__=="__main__" :
-	imu=init_imu_lsm()
-	print("Roll :",roll(imu))
-	print("Pitch :", pitch(imu))
-	print('Yaw :',yaw(imu))
-	time.sleep(0.5)
+	while True :
+		imu=init_imu_lsm()
+		print("Roll :",roll(imu))
+		print("Pitch :", pitch(imu))
+		print('Yaw :',yaw(imu))
+		time.sleep(0.5)
