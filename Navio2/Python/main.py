@@ -125,9 +125,8 @@ if __name__ == "__main__" :
 			conn, addr = s.accept()
 			with conn:
 				while True:
-					rpy=[b_state.roll,b_state.pitch,b_state.yaw]
-					print(rpy)
-					data=struct.pack('3f',*rpy)
+					r_p_y=[b_state.roll,b_state.pitch,b_state.yaw]
+					data=struct.pack('3f',*r_p_y)
 					conn.sendall(data)
 					time.sleep(0.1)
 		# rasp.pos=vector(b_state.x,b_state.y,0)
