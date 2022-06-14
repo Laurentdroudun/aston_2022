@@ -62,7 +62,7 @@ def rpy(imu) :
 	mag_x=m9m[0]*cos(pitch)+m9m[1]*sin(roll)*sin(pitch)-m9m[2]*cos(roll)*sin(pitch)
 	mag_y=m9m[1]*cos(roll)+m9m[2]*sin(roll)
 	yaw=180*atan2(-mag_y,mag_x)/pi
-	yaw=atan2(m9m[1],m9m[0])*180/pi
+	# yaw=atan2(m9m[1],m9m[0])*180/pi
 	return roll,pitch,yaw
 
 if __name__=="__main__" :
