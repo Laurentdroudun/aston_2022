@@ -68,7 +68,7 @@ def rpy(imu) :
 if __name__=="__main__" :
 	while True :
 		imu=init_imu_lsm()
-		roll,pitch,yaw=rpy(imu)
+		roll,pitch,autre=rpy(imu)
 		yaw=yaw(imu)
 		print("Roll :",roll)
 		print("Pitch :", pitch)
