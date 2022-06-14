@@ -19,7 +19,7 @@ from GPS import gps										#gps(ubl)
 from GPS import init_gps								#init_gps() renvoie ubl
 from ADC import voltage 								#voltage(adc,results)
 from ADC import init_adc								#renvoie adc et results 
-from AccelGyroMag import acc_gyr_mag,roll,pitch,yaw,rpy		#imu(sensor='lsm')
+from AccelGyroMag import acc_gyr_mag,rpy		#imu(sensor='lsm')
 from AccelGyroMag import init_imu_lsm					#renvoie imu comme lsm
 from AccelGyroMag import init_imu_mpu					#renvoie imu comme mpu
 import Calypso
