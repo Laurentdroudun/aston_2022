@@ -65,11 +65,11 @@ def rpy(imu) :
 	yaw=atan2(m9m[1],m9m[0])*180/pi
 	return roll,pitch,yaw
 
-# if __name__=="__main__" :
-# 	while True :
-# 		imu=init_imu_lsm()
-# 		roll,pitch,yaw=rpy(imu)
-# 		print("Roll :",roll)
-# 		print("Pitch :", pitch)
-# 		print('Yaw :',yaw)
-# 		time.sleep(0.5)
+if __name__=="__main__" :
+	while True :
+		imu=init_imu_lsm()
+		roll,pitch,yaw=rpy(imu)
+		print("Roll :",roll)
+		print("Pitch :", pitch)
+		print('Yaw :',yaw)
+		time.sleep(0.5)
