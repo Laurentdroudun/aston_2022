@@ -39,8 +39,8 @@ def acc_gyr_mag(imu):
 
 def yaw(imu) :
 	m9a, m9g, m9m = acc_gyr_mag(imu)
-
-	yaw=atan2(m9m[1],m9m[0])*180/pi
+	yaw=180*atan(m9a[2]/sqrt(m9a[0]**2+m9a[2]**2))/pi
+	# yaw=atan2(m9m[1],m9m[0])*180/pi
 	return(yaw)
 
 def roll(imu) :

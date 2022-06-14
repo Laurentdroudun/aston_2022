@@ -1,6 +1,7 @@
 from vpython import *
 import socket
 import struct
+import time
 from math import *
 HOST = "navio.local"  # The server's hostname or IP address
 PORT = 65432  # The port used by the server
@@ -27,7 +28,7 @@ if __name__ == "__main__" :
 				continue
 			x,y,z=rpy
 			s_boat.rotate(angle=-radians(old_x-x),axis=vector(sin(radians(z)),0,cos(radians(z))),origin=vector(0,0,0))
-			# s_boat.rotate(angle=-radians(old_y-y),axis=vector(0,0,1),origin=vector(0,0,0))
+			s_boat.rotate(angle=-radians(old_y-y),axis=vector(cos(radians(z)),0,-sin(radians(z))),origin=vector(0,0,0))
 			s_boat.rotate(angle=radians(old_z-z),axis=vector(0,-1,0),origin=vector(0,0,0))
 			print(radians(old_z-z))
 			old_x,old_y,old_z=x,y,z
