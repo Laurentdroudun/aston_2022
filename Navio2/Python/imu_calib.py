@@ -50,7 +50,7 @@ def magn_calib(imu,duration) :
 	mag_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'imu_magnetometer_calibration.txt')
 	mag_f=open(mag_file,"w")
 	for i in range(len(mx)) :
-		mag_f.write('{} | {} | {}'.format(mx[i],my[i],mz[i]))
+		mag_f.write('{} | {} | {}\n'.format(mx[i],my[i],mz[i]))
 	print("Data copied")
 	params = [0.,0.,0.,0.]
 	myResult = optimize.leastsq(res_sphere, params, args=(np.array(mx),np.array(my),np.array(mz)) )
