@@ -3,7 +3,7 @@ import time
 import argparse 
 import sys 
 import navio2.mpu9250
-import navio2.lsm9d1
+import navio2.lsm9ds1
 import navio2.util 
 from math import * 
 import numpy as np
