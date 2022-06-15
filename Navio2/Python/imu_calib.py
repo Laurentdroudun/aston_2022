@@ -51,9 +51,9 @@ def magn_calib(imu,duration) :
 	mag_data_file=os.path.join(os.path.dirname(os.path.abspath(__file__)), '{}_magnetometer_data_for_calibration.txt'.format(str(imu)))
 	mag_f=open(mag_file,"w")
 	mag_data_f=open(mag_data_file,"w")
-	mag_data_f.write(mx)
-	mag_data_f.write(my)
-	mag_data_f.write(mz)
+	mag_data_f.write("{}".format(mx))
+	mag_data_f.write("{}".format(my))
+	mag_data_f.write("{}".format(mz))
 	mag_data_f.close()
 	for i in range(len(mx)) :
 		mag_f.write('{} | {} | {}'.format(mx[i],my[i],mz[i]))
@@ -62,7 +62,7 @@ def magn_calib(imu,duration) :
 	myResult = optimize.leastsq(res_sphere, params, args=(np.array(mx),np.array(my),np.array(mz)) )
 	ox, oy, oz, r = myResult[0]
 	mag_f.close()
-	print("Offsets : {} | {} | {}".format(ox,oy,oz))
+	print("Offsets : {} | {} | {}\n".format(ox,oy,oz))
 	print("Magnetometer Calibration ends")
 	return ox,oy,oz
 
