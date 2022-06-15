@@ -76,7 +76,7 @@ def acc_calib(imu,duration) :
 	print("Copying in a file")
 	acc_file=os.path.join(os.path.dirname(os.path.abspath(__file__)),'imu_accelerometer_calibration.txt')
 	acc_f=open(acc_file,'w')
-	for k in range(ax) :
+	for k in range(len(ax)) :
 		acc_f.write("{} | {} | {}\n".format(ax[k],ay[k],az[k]))
 	print("Data copied")
 	ox,oy,oz=np.mean(ax),np.mean(ay),np.mean(az)-9.81
