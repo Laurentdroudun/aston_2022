@@ -47,14 +47,8 @@ def magn_calib(imu,duration) :
 		my.append(mag[1])
 		mz.append(mag[2])
 	print("Copying in a file")
-	mag_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), '{}_magnetometer_calibration.txt'.format(str(imu)))
-	mag_data_file=os.path.join(os.path.dirname(os.path.abspath(__file__)), '{}_magnetometer_data_for_calibration.txt'.format(str(imu)))
+	mag_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'imu_magnetometer_calibration.txt')
 	mag_f=open(mag_file,"w")
-	mag_data_f=open(mag_data_file,"w")
-	mag_data_f.write("{}".format(mx))
-	mag_data_f.write("{}".format(my))
-	mag_data_f.write("{}".format(mz))
-	mag_data_f.close()
 	for i in range(len(mx)) :
 		mag_f.write('{} | {} | {}'.format(mx[i],my[i],mz[i]))
 	print("Data copied")
@@ -74,10 +68,19 @@ def res_sphere(p,x,y,z):
 	return err
 
 def show_calib_mag(imu) :
-	mag_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), '{}_magnetometer__data_for_calibration.txt'.format(str(imu)))
+	mag_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'imu_magnetometer_calibration.txt')
 	mag_f=open(mag_file,'r')
-	mx,my,mz=mag_f.readlines()
+	mx,my,mz=[],[],[]
+	data=mag_f.readlines()
 	mag_f.close()
+	for k in range(len(data)) :
+		l=data[k].split(" | ")
+		x=l[0]
+		y=l[1]
+		z=l[2]
+		mx.append(x)
+		my.append(y)
+		mz.append(z)
 	fig=plt.figure()
 	ax=plt.axes(projection="3d")
 	ax.scatter(np.array(mx),np.array(my),np.array(mz),c='b')
