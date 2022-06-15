@@ -60,6 +60,31 @@ def magn_calib(imu,duration) :
 	print("Magnetometer Calibration ends")
 	return ox,oy,oz
 
+def acc_calib(imu,duration) :
+	print("Accelerometer Calibration")
+	print("_________________________")
+	print("Place the Raspberry on a plane surface")
+	time.sleep(1)
+	print("Waiting for calibration ({} seconds)".format(duration))
+	ax,ay,az=[],[],[]
+	t0=time.time()
+	while time.time()-t0 < duration :
+		acc=acc_gyr_mag(imu)[0]
+		ax.append(acc[0])		
+		ay.append(acc[1])
+		az.append(acc[2])
+	print("Copying in a file")
+	acc_file=os.path.join(os.path.dirname(os.path.abspath(__file__)),'imu_accelerometer_calibration.txt')
+	acc_f=open(acc_file,'w')
+	for k in range(ax) :
+		acc_f.write("{} | {} | {}\n".format(ax[k],ay[k],az[k]))
+	print("Data copied")
+	ox,oy,oz=np.mean(ax),np.mean(ay),np.mean(az)-9.81
+	acc_f.close()
+	print("Offsets : {} | {} | {}".format(ox,oy,oz))
+	print("Accelerometer Calibration ends")
+	return ox,oy,oz
+
 def res_sphere(p,x,y,z):
 	""" residuals from sphere fit """
 	a,b,c,r = p                             # a,b,c are center x,y,c coords to be fit, r is the radius to be fit
@@ -88,5 +113,11 @@ def show_calib_mag(imu) :
 
 if __name__=="__main__" :
 	imu=init_lsm()
-	ox,oy,oz=magn_calib(imu,180)
+	# omx,omy,omz=magn_calib(imu,180)
+	oax,oay,oaz=acc_calib(imu,180)
+	offsets_file=os.path.join(os.path.dirname(os.path.abspath(__file__)),'offset_file.txt')
+	off_f=open(offsets_file,'w')
+	# off_f.write("Magnetometer Offsets are : {} | {} | {}\n\n".format(omx,omy,omz))
+	off_f.write("Accelerometer Offsets are : {} | {} | {}".format(oax,oay,oaz))
+	off_f.close()
 	show_calib_mag(imu)
