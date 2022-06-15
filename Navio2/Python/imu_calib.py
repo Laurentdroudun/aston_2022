@@ -88,5 +88,5 @@ def show_calib_mag(imu) :
 
 if __name__=="__main__" :
 	imu=init_lsm()
-	ox,oy,oz=magn_calib(imu,60)
+	ox,oy,oz=magn_calib(imu,180)
 	show_calib_mag(imu)
