@@ -20,10 +20,10 @@ def init_imu_mpu() :
 
 def acc_gyr_mag(imu):
 	m9a, m9g, m9m = imu.getMotion9()
-	offset_acc_x=0.018269624314355457
+	offset_acc_x=-3.018269624314355457
 	offset_acc_y=-0.5670094354461468
 	offset_acc_z=-0.3401383226787864
-	offset_mag_x=-10.959210618259436
+	offset_mag_x=-7.959210618259436
 	offset_mag_y=-21.521659859117926
 	offset_mag_z=-11.650658574455132
 	m9a[0]-=offset_acc_x
