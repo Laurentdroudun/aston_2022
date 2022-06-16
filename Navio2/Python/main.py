@@ -63,6 +63,7 @@ def th_RPY(imu) :
 		b_state.roll=np.mean(b_state.tab_rpy[0])
 		b_state.pitch=np.mean(b_state.tab_rpy[1])
 		b_state.yaw=np.mean(b_state.tab_rpy[2])
+		i+=1
 
 
 def th_wind(dev) :
