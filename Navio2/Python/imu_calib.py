@@ -69,7 +69,7 @@ def acc_calib(imu,duration) :
 	ax,ay,az=[],[],[]
 	t0=time.time()
 	while time.time()-t0 < duration :
-		acc=acc_gyr_mag(imu)[0]
+		acc=imu.getMotion9()[0]
 		ax.append(acc[0])		
 		ay.append(acc[1])
 		az.append(acc[2])
