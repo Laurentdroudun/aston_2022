@@ -22,9 +22,9 @@ def acc_gyr_mag(imu):
 	m9a, m9g, m9m = imu.getMotion9()
 	offset_acc=[]
 	offset_mag=[]
-	offset_acc.append(-0.018269624314355457)
-	offset_acc.append(-0.5670094354461468)
-	offset_acc.append(-0.3401383226787864)
+	offset_acc.append(0.085833271023372)
+	offset_acc.append(0.015160223023640923)
+	offset_acc.append(0.015160223023640923)
 	offset_mag.append(-7.959210618259436)
 	offset_mag.append(-21.521659859117926)
 	offset_mag.append(-11.650658574455132)
