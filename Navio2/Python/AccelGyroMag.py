@@ -55,8 +55,8 @@ def pitch(imu) :
 
 def rpy(imu) :
 	m9a, m9g, m9m = acc_gyr_mag(imu)
-	roll=180*atan2(m9a[0],sqrt(m9a[1]**2+m9a[2]**2))/pi
-	pitch=180*atan2(m9a[1],sqrt(m9a[0]**2+m9a[2]**2))/pi
+	roll=180*atan2(m9a[1],sqrt(m9a[0]**2+m9a[2]**2))/pi
+	pitch=180*atan2(m9a[0],sqrt(m9a[1]**2+m9a[2]**2))/pi
 	yaw=atan2(m9m[1],m9m[0])*180/pi
 	return roll,pitch,yaw
 
