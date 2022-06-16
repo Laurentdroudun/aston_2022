@@ -47,7 +47,7 @@ class boat_state() :
 		self.x_wind=x_wind
 		self.y_wind=y_wind
 		self.end=False
-
+		self.tab_rpy=np.array([[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]])
 
 def th_gps(ubl) :
 	while not b_state.end :
@@ -56,16 +56,19 @@ def th_gps(ubl) :
 			b_state.x,b_state.y=gpss[0],gpss[1]
 
 def th_RPY(imu) :
+	i=0
 	while not b_state.end :
 		roll,pitch,yaw=rpy(imu)
-		b_state.roll=roll
-		b_state.pitch=pitch
-		b_state.yaw=yaw
+		b_state.tab_rpy[:,i%5]=roll,pitch,yaw
+		b_state.roll=np.mean(b_state.tab_rpy[0])
+		b_state.pitch=np.mean(b_state.tab_rpy[1])
+		b_state.yaw=np.mean(b_state.tab_rpy[2])
 
 
 def th_wind(dev) :
 	while not b_state.end :
 		b_state.x_wind,b_state.y_wind=wind(dev)[0],wind(dev)[1]
+
 
 def f(x,u):
     x,u=x.flatten(),u.flatten()
