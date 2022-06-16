@@ -62,31 +62,52 @@ def th_RPY(imu) :
 		b_state.pitch=pitch
 		b_state.yaw=yaw
 
-# def th_vit(imu) :
-# 	while not b_state.end :
-# 		t0=time.time()
-
-# 		acc,gyro,mag=acc_gyr_mag(imu)
-
-# 		dt=time.time()-t0
-# 		b_state.vx=b_state.vx+acc[0]*dt
-# 		b_state.vy=b_state.vy+acc[1]*dt
-# 		b_state.vz=b_state.vz+acc[2]*dt
 
 def th_wind(dev) :
 	while not b_state.end :
 		b_state.x_wind,b_state.y_wind=wind(dev)[0],wind(dev)[1]
 
-# def th_serv(PORT,HOST) :
-# 	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-# 	    s.bind((HOST, PORT))
-# 	    s.listen()
-# 	    conn, addr = s.accept()
-# 	    with conn:
-# 	        print(f"Connected by {addr}")
-# 	        while True:
-# 	        	data=struct.pack('10f',*b_state)
-# 	        	conn.sendall(data)
+def f(x,u):
+    x,u=x.flatten(),u.flatten()
+    dtheta=x[2]; v=x[3]; w=x[4]; delta_r=u[0]; delta_s_max=u[1];
+    w_ap = array([[awind*cos(psi-dtheta) - v],[awind*sin(psi-dtheta)]])
+    psi_ap = angle(w_ap)
+    a_ap=norm(w_ap)
+    sigma = cos(psi_ap) + cos(delta_s_max)
+    if sigma < 0 :
+        delta_s = pi + psi_ap
+    else :
+        delta_s = -sign(sin(psi_ap))*delta_s_max
+    fr = p4*v*sin(delta_r)
+    fs = p3*a_ap* sin(delta_s - psi_ap)
+    dx=v*cos(dtheta) + p0*awind*cos(psi)
+    dy=v*sin(dtheta) + p0*awind*sin(psi)
+    dv=(fs*sin(delta_s)-fr*sin(delta_r)-p1*v**2)/p8
+    dw=(fs*(p5-p6*cos(delta_s)) - p7*fr*cos(delta_r) - p2*w*v)/p9
+    xdot=array([ [dx],[dy],[w],[dv],[dw]])
+    return xdot,delta_s
+
+def regu_sailboat(x,psi,a,b,q) :
+    m=array([[x.flatten()[0]],[x.flatten()[1]]])
+    theta=x.flatten()[2]
+    r=10
+    biz=pi/4
+    gamma_inf=pi/4
+    delta_r_max=1
+    e=det(hstack(((b-a)/norm(b-a),m-a)))
+    if abs(e)>r/2 :
+        q=sign(e)
+    phi=arctan2((b-a)[1,0],(b-a)[0,0])
+    theta_b=phi-(2*gamma_inf*arctan(e/r))/pi
+    if cos(psi-theta_b)+cos(biz)<0 or (abs(e)<r and cos(psi-phi)+cos(biz)<0) :
+        theta_b=pi+psi-q*biz
+    if cos(theta-theta_b) >= 0 :
+        delta_r=delta_r_max*sin(theta-theta_b)
+    else :
+        delta_r=delta_r_max*sign(sin(theta-theta_b))
+    delta_s_max=(pi/2)*(cos(psi-theta_b)+1)/2
+    return delta_r,delta_s_max,q
+
 
 if __name__ == "__main__" :
 
@@ -105,19 +126,15 @@ if __name__ == "__main__" :
 	thread_gps=Thread(None,th_gps,args=(ubl,))
 	thread_RPY=Thread(None,th_RPY,args=(lsm,))
 #	thread_wind=Thread(None,th_wind,args=(dev,))
-	# thread_vit=Thread(None,th_vit,args=(mpu,))
-	# thread_server=Thread(None,th_serv,args=(PORT,HOST,))
 #	threads.append(thread_wind)
 	threads.append(thread_RPY)
-	# threads.append(thread_server)
 	threads.append(thread_gps)
-	# threads.append(thread_vit)
 	for t in threads :
 		t.start()
 
-	# scene=canvas(width=200,height=200,title='Scene')
-	# rasp=box(canvas=scene,pos=vector(0,0,0),length=4,height=1,width=2,color=color.green)
-	#Données :
+	# while not b_state.end :
+	# 	x=[b_state.x,b_state.y,b_state.vx,b_state.vy,b_state.vz,]
+	#Simulation :
 	while not b_state.end :
 		with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 			s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
@@ -130,9 +147,6 @@ if __name__ == "__main__" :
 					print(r_p_y)
 					data=struct.pack('3f',*r_p_y)
 					conn.sendall(data)
-		# rasp.pos=vector(b_state.x,b_state.y,0)
-		# rasp.axis=vector(b_state.roll,b_state.pitch,b_state.yaw)
-		# rasp=box(canvas=scene,pos=vector(0,0,0),axis=rasp.axis,length=4,height=1,width=2,color=color.green)
 		# print("x :", b_state.x)
 		# print("y :", b_state.y)
 		# print("vx :", b_state.vx)
