@@ -17,6 +17,9 @@ if __name__ == "__main__" :
 	x_axis=arrow(pos=vector(0,0,0),axis=vector(1,0,0),color=color.blue)
 	y_axis=arrow(pos=vector(0,0,0),axis=vector(0,0,1),color=color.green)
 	z_axis=arrow(pos=vector(0,0,0),axis=vector(0,-1,0),color=color.orange)
+	x_b=arrow(pos=vector(0,0,0),axis=vector(s_boat.axis.x,0,0))
+	# y_b=arrow(pos=s_boat.pos,axis=vector(0,s_boat.axis.y,0))
+	# z_b=arrow(pos=s_boat.pos,axis=vector(0,0,s_boat.axis.z))
 	old_x,old_y,old_z=0,0,0
 	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 		s.connect((HOST, PORT))
@@ -27,9 +30,13 @@ if __name__ == "__main__" :
 			except :
 				continue
 			x,y,z=rpy
-			s_boat.rotate(angle=-radians(old_x-x),axis=vector(sin(radians(z)),0,cos(radians(z))),origin=vector(0,0,0))
-			s_boat.rotate(angle=-radians(old_y-y),axis=vector(cos(radians(z)),0,-sin(radians(z))),origin=vector(0,0,0))
-			s_boat.rotate(angle=radians(old_z-z),axis=vector(0,-1,0),origin=vector(0,0,0))
-			print(radians(old_z-z))
+			if abs(old_z-z) < 100 :
+				x_b.axis=s_boat.axis
+				# y_b.axis=vector(0,s_boat.axis.y,0)
+				# z_b.axis=vector(0,0,s_boat.axis.z)
+				s_boat.rotate(angle=-radians(old_x-x),axis=s_boat.axis,origin=vector(0,0,0))
+				# s_boat.rotate(angle=-radians(old_y-y),axis=vector(-rasp.axis.z,0,rasp.axis.z),origin=vector(0,0,0))
+				s_boat.rotate(angle=radians(old_z-z),axis=vector(0,-1,0),origin=vector(0,0,0))
+				print(radians(old_z-z))
 			old_x,old_y,old_z=x,y,z
-			time.sleep(0.2)
+			time.sleep(0.1)
