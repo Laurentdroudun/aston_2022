@@ -32,7 +32,7 @@ def acc_gyr_mag(imu):
 	m9m[0]-=offset_mag_x
 	m9m[1]-=offset_mag_y
 	m9m[2]-=offset_mag_z
-	return m9a/9.81,m9g,m9m
+	return m9a*1/9.81,m9g,m9m
 
 
 def yaww(imu) :
