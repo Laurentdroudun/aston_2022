@@ -28,10 +28,12 @@ def acc_gyr_mag(imu):
 	offset_mag.append(-7.959210618259436)
 	offset_mag.append(-21.521659859117926)
 	offset_mag.append(-11.650658574455132)
+	print(m9a)
 	for k in range(3) :
 		m9a[k]-=offset_acc[k]
 		m9a[k]/=9.81
 		m9m[k]-=offset_mag[k]
+	print(m9a)
 	return m9a,m9g,m9m
 
 
