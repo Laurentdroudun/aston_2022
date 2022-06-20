@@ -46,23 +46,20 @@ def gps(ubl) :
             ubl.close()
             ubl = navio2.ublox.UBlox("spi:0.0", baudrate=5000000, timeout=2)
         return None
-    # if msg.name() == "NAV_PVT" :
-    #     lon,lat,speed=[int(str(msg).split(",")[14][5:]),int(str(msg).split(",")[15][5:]),int(str(msg).split(",")[23][8:])]
-    #     return lon,lat,speed
-    # if msg.name() == "NAV_POSLLH":
-    #     print(msg)
-    #     lon_lat= [int(str(msg).split(",")[1][11:])/(10**7),int(str(msg).split(",")[2][10:])/(10**7)]
-    #     # vit=msg
-    #     return lon_lat                       #Returns the longitude and the latitude 
+    if msg.name() == "NAV_POSLLH":
+        # print(msg)
+        lon,lat= int(str(msg).split(",")[1][11:])/(10**7),int(str(msg).split(",")[2][10:])/(10**7)
+        return ["lon_lat",lon,lat]                      #Returns the longitude and the latitude 
     if msg.name() == "NAV_VELNED":
-        outstr = str(msg).split(",")[1:2]
-        outstr = "".join(outstr)
-        print(msg)
+        speed=str(msg).split(",")[5][8:]
+        return ["speed",speed]
 
-if __name__=="__main__" :
-    ubl=init_gps()
-    while True :
-        data=gps(ubl)
-        if data!=None :
-            lon,lat,speed=data[0],data[1],data[2]
-            print("lon = {} | lat = {} | speed = {}".format(lon,lat,speed))
+# if __name__=="__main__" :
+#     ubl=init_gps()
+#     lat,lon,speed=0,0,0
+#     while True :
+#         data=gps(ubl)
+#         if data!=None :
+#             if 
+#             lon,lat,speed=data[0],data[1],data[2]
+#             print("lon = {} | lat = {} | speed = {}".format(lon,lat,speed))

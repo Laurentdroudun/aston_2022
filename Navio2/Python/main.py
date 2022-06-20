@@ -49,19 +49,26 @@ class boat_state() :
 
 def th_gps(ubl) :
 	while not b_state.end :
-		msg=ubl.receive_message_nonblocking()
-		if msg is None :
-			if opts.reopen:
-				ubl.close()
-				ubl=navio2.ublox.UBlox("spi:0.0",baudrate=5000000,timeout=2)
-		if msg.name()=="NAV_POSLLH" :
-			print(msg)
-			lon,lat=int(str(msg).split(",")[1][11:])/(10**7),int(str(msg).split(",")[2][10:])/(10**7)
-			b_state.x=lon
-			b_state.y=lat
-		if msg.name()=="NAV_VELNED" :
-			print(msg)
-			speed=str(msg).split(",")[5][8:]
+		gpss=gps(ubl)
+		if gpss!=None :
+			if gpss[0]=="lon_lat" :
+				b_state.x=gpss[1]
+				b_state.y=gpss[2]
+			if gpss[0]=="speed" :
+				b_state.speed=gpss[1]
+		# msg=ubl.receive_message_nonblocking()
+		# if msg is None :
+		# 	if opts.reopen:
+		# 		ubl.close()
+		# 		ubl=navio2.ublox.UBlox("spi:0.0",baudrate=5000000,timeout=2)
+		# if msg.name()=="NAV_POSLLH" :
+		# 	print(msg)
+		# 	lon,lat=int(str(msg).split(",")[1][11:])/(10**7),int(str(msg).split(",")[2][10:])/(10**7)
+		# 	b_state.x=lon
+		# 	b_state.y=lat
+		# if msg.name()=="NAV_VELNED" :
+		# 	print(msg)
+		# 	speed=str(msg).split(",")[5][8:]
 
 def th_RPY(imu) :
 	i=0
