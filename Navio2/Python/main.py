@@ -55,7 +55,7 @@ def th_gps(ubl) :
 				b_state.x=gpss[1]
 				b_state.y=gpss[2]
 			if gpss[0]=="speed" :
-				b_state.speed=gpss[1]
+				b_state.speed=float(gpss[1])
 		# msg=ubl.receive_message_nonblocking()
 		# if msg is None :
 		# 	if opts.reopen:
@@ -118,7 +118,7 @@ def regu_sailboat(a,b,q=1) :
     psi_ap = np.arctan2(w_ap[1,0],w_ap[0,0])
     a_ap=np.linalg.norm(w_ap)
     print(a_ap,psi_ap,theta,speed)
-    w_tr=np.array([[a_ap*np.cos(psi_ap-theta)+float(speed)],[a_ap*np.sin(psi_ap-theta)]])
+    w_tr=np.array([[a_ap*np.cos(psi_ap-theta)+speed],[a_ap*np.sin(psi_ap-theta)]])
     psi_tr=np.arctan2(w_tr[1,0],w_tr[0,0])
     a_tr=np.linalg.norm(w_tr)    
     r=10
