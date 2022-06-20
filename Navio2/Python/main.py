@@ -96,7 +96,7 @@ def f(x,u):
     if sigma < 0 :
         delta_s = pi + psi_ap
     else :
-        delta_s = -sign(np.sin(psi_ap))*delta_s_max
+        delta_s = -np.sign(np.sin(psi_ap))*delta_s_max
     fr = p4*v*np.sin(delta_r)
     fs = p3*a_ap* np.sin(delta_s - psi_ap)
     dx=v*np.cos(theta) + p0*awind*np.cos(psi)
@@ -115,7 +115,7 @@ def regu_sailboat(x,psi,a,b,q=1) :
     delta_r_max=1
     e=np.linalg.det(np.hstack(((b-a)/np.linalg.norm(b-a),m-a)))
     if abs(e)>r/2 :
-        q=sign(e)
+        q=np.sign(e)
     phi=np.arctan2((b-a)[1,0],(b-a)[0,0])
     theta_b=phi-(2*gamma_inf*np.arctan(e/r))/pi
     if np.cos(psi-theta_b)+np.cos(biz)<0 or (abs(e)<r and np.cos(psi-phi)+np.cos(biz)<0) :
@@ -123,7 +123,7 @@ def regu_sailboat(x,psi,a,b,q=1) :
     if np.cos(theta-theta_b) >= 0 :
         delta_r=delta_r_max*np.sin(theta-theta_b)
     else :
-        delta_r=delta_r_max*sign(np.sin(theta-theta_b))
+        delta_r=delta_r_max*np.sign(np.sin(theta-theta_b))
     delta_s_max=(pi/2)*(np.cos(psi-theta_b)+1)/2
     return delta_r,delta_s_max,q
 
