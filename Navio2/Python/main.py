@@ -35,10 +35,10 @@ PORT = 65432
 HOST = "navio.local"
 
 class boat_state() :
-	def __init__(self,x,y,vit,roll,pitch,yaw,x_wind,y_wind) :
+	def __init__(self,x,y,speed,roll,pitch,yaw,x_wind,y_wind) :
 		self.x=x
 		self.y=y
-		self.vit=vit
+		self.speed=speed
 		self.roll=roll
 		self.pitch=pitch
 		self.yaw=yaw
