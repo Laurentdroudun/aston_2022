@@ -47,7 +47,7 @@ def gps(ubl) :
             ubl = navio2.ublox.UBlox("spi:0.0", baudrate=5000000, timeout=2)
         print(empty)
     if msg.name() == "NAV_PVT" :
-        lon,lat,speed=[int(str(msg).split(",")[15][4:]),int(str(msg).split(",")[16][4:],int(str(msg).split(",")[24][7:]))]
+        lon,lat,speed=int(str(msg).split(",")[15][4:]),int(str(msg).split(",")[16][4:]),int(str(msg).split(",")[24][7:])
         return lon,lat,speed
     # if msg.name() == "NAV_POSLLH":
     #     print(msg)
