@@ -51,7 +51,7 @@ def gps(ubl) :
         lon_lat,vit = [int(str(msg).split(",")[1][11:]),int(str(msg).split(",")[2][10:])]
         # vit=msg
         return lon_lat                       #Returns the longitude and the latitude 
-    if msg.name() == "NAV_STATUS":
+    if msg.name() == "NAV_VELNED":
         outstr = str(msg).split(",")[1:2]
         outstr = "".join(outstr)
         print(msg)
