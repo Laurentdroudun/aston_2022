@@ -114,7 +114,7 @@ def regu_sailboat(x,a,b,q=1) :
     theta=b_state.yaw*pi/180
     a_awx=b_state.x_wind; a_awy=b_state.y_wind;
     w_ap=np.array([[a_awx],[a_awy]])
-	psi_ap = np.angle(w_ap)
+    psi_ap = np.angle(w_ap)
     a_ap=np.linalg.norm(w_ap)
     w_tr=np.array([[a_ap*np.cos(psi_ap_theta)+v],[a_ap*np.sin(psi_ap-theta)]])
     psi_tr=np.angle(w_tr)
