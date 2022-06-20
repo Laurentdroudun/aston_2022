@@ -55,10 +55,12 @@ def th_gps(ubl) :
 				ubl.close()
 				ubl=navio2.ublox.UBlox("spi:0.0",baudrate=5000000,timeout=2)
 		if msg.name()=="NAV_POSLLH" :
+			print(msg)
 			lon,lat=int(str(msg).split(",")[1][11:])/(10**7),int(str(msg).split(",")[2][10:])/(10**7)
 			b_state.x=lon
 			b_state.y=lat
 		if msg.name()=="NAV_VELNED" :
+			print(msg)
 			speed=str(msg).split(",")[5][8:]
 
 def th_RPY(imu) :
