@@ -40,7 +40,7 @@ def init_gps() :
     return ubl
 
 def gps(ubl) :
-    msg = ubl.receive_message_noerror()
+    msg = ubl.receive_message_nonblocking()
     if msg is None:
         if opts.reopen:
             ubl.close()
@@ -57,7 +57,7 @@ def gps(ubl) :
         print(msg)
 
 if __name__=="__main__" :
+    ubl=init_gps()
     while True :
-        ubl=init_gps()
         lon_lat=gps(ubl)
         # print("lon_lat : {}, vitesse : #".format(lon_lat))
