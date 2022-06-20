@@ -40,7 +40,7 @@ def init_gps() :
     return ubl
 
 def gps(ubl) :
-    msg = ubl.receive_message_nonblocking()
+    msg = ubl.receive_message_noerror()
     if msg is None:
         if opts.reopen:
             ubl.close()
