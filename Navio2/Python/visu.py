@@ -38,7 +38,7 @@ if __name__ == "__main__" :
 				s_boat.rotate(angle=radians(old_yaw-yaw),axis=vector(0,-1,0),origin=vector(0,0,0))
 				
 
-			wind.axis=vector(x_wind,0,-y_wind)
+			wind.axis=vector(-1,0,1)
 			old_yaw,old_delta_s,old_delta_r=yaw,delta_s,delta_r
 			time.sleep(0.1)
 
