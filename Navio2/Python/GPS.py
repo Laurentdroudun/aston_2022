@@ -46,15 +46,17 @@ def gps(ubl) :
             ubl.close()
             ubl = navio2.ublox.UBlox("spi:0.0", baudrate=5000000, timeout=2)
         print(empty)
-    if msg.name() == "NAV_POSLLH":
+    if msg.name() == "NAV_PVT" :
         print(msg)
-        lon_lat= [int(str(msg).split(",")[1][11:])/(10**7),int(str(msg).split(",")[2][10:])/(10**7)]
-        # vit=msg
-        return lon_lat                       #Returns the longitude and the latitude 
-    if msg.name() == "NAV_VELNED":
-        outstr = str(msg).split(",")[1:2]
-        outstr = "".join(outstr)
-        print(msg)
+    # if msg.name() == "NAV_POSLLH":
+    #     print(msg)
+    #     lon_lat= [int(str(msg).split(",")[1][11:])/(10**7),int(str(msg).split(",")[2][10:])/(10**7)]
+    #     # vit=msg
+    #     return lon_lat                       #Returns the longitude and the latitude 
+    # if msg.name() == "NAV_VELNED":
+    #     outstr = str(msg).split(",")[1:2]
+    #     outstr = "".join(outstr)
+        # print(msg)
 
 if __name__=="__main__" :
     ubl=init_gps()

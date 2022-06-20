@@ -35,12 +35,10 @@ PORT = 65432
 HOST = "navio.local"
 
 class boat_state() :
-	def __init__(self,x,y,vx,vy,vz,roll,pitch,yaw,x_wind,y_wind) :
+	def __init__(self,x,y,vit,roll,pitch,yaw,x_wind,y_wind) :
 		self.x=x
 		self.y=y
-		self.vx=vx
-		self.vy=vy
-		self.vz=vz
+		self.vit=vit
 		self.roll=roll
 		self.pitch=pitch
 		self.yaw=yaw
@@ -53,7 +51,7 @@ def th_gps(ubl) :
 	while not b_state.end :
 		gpss=gps(ubl)
 		if gpss != None :
-			b_state.x,b_state.y=gpss[0],gpss[1]
+			b_state.x,b_state.y=gpss[0],gpss[1],gpss[2]
 
 def th_RPY(imu) :
 	i=0
