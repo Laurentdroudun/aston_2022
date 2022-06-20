@@ -36,7 +36,7 @@ if __name__ == "__main__" :
 			print("x = {} | y = {} | speed = {} | yaw = {} | x_wind = {} | y_wind = {} | delta_s = {} | delta_r = {}\n\n".format(x,y,speed,yaw,x_wind,y_wind,delta_s,delta_r))
 			if abs(old_yaw-yaw) < 100 :
 				s_boat.rotate(angle=radians(old_yaw-yaw),axis=vector(0,-1,0),origin=vector(0,0,0))
-				sail.rotate(angle=radians())
+				sail.rotate(angle=radians(old_delta_s-delta_s))
 
 			wind.axis=vector(x_wind,0,y_wind)
 			old_yaw,old_delta_s,old_delta_r=yaw,delta_s,delta_r
