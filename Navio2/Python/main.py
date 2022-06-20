@@ -88,8 +88,8 @@ def th_wind(dev) :
 
 def f(x,u):
     x,u=x.flatten(),u.flatten()
-    dtheta=x[2]; v=x[3]; w=x[4]; delta_r=u[0]; delta_s_max=u[1];
-    w_ap = array([[awind*cos(psi-dtheta) - v],[awind*sin(psi-dtheta)]])
+    theta=b_state.yaw*pi/180; v=x[2]; delta_r=u[0]; delta_s_max=u[1];
+    w_ap = array([[awind*cos(psi-theta) - v],[awind*sin(psi-theta)]])
     psi_ap = angle(w_ap)
     a_ap=norm(w_ap)
     sigma = cos(psi_ap) + cos(delta_s_max)
@@ -99,14 +99,14 @@ def f(x,u):
         delta_s = -sign(sin(psi_ap))*delta_s_max
     fr = p4*v*sin(delta_r)
     fs = p3*a_ap* sin(delta_s - psi_ap)
-    dx=v*cos(dtheta) + p0*awind*cos(psi)
-    dy=v*sin(dtheta) + p0*awind*sin(psi)
+    dx=v*cos(theta) + p0*awind*cos(psi)
+    dy=v*sin(theta) + p0*awind*sin(psi)
     dv=(fs*sin(delta_s)-fr*sin(delta_r)-p1*v**2)/p8
-    dw=(fs*(p5-p6*cos(delta_s)) - p7*fr*cos(delta_r) - p2*w*v)/p9
-    xdot=array([[dx],[dy],[w],[dv],[dw]])
+    # dw=(fs*(p5-p6*cos(delta_s)) - p7*fr*cos(delta_r) - p2*w*v)/p9
+    xdot=array([[dx],[dy],[dv]])
     return xdot,delta_s
 
-def regu_sailboat(x,psi,a,b,q) :
+def regu_sailboat(x,psi,a,b,q=1) :
     m=array([[x.flatten()[0]],[x.flatten()[1]]])
     theta=x.flatten()[2]
     r=10
@@ -154,21 +154,29 @@ if __name__ == "__main__" :
 	# while not b_state.end :
 	# 	x=[b_state.x,b_state.y,b_state.vx,b_state.vy,b_state.vz,]
 	#Simulation :
+	q=1
 	while not b_state.end :
-	# 	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-	# 		s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
-	# 		s.bind((HOST, PORT))
-	# 		s.listen()
-	# 		conn, addr = s.accept()
-	# 		with conn:
-	# 			while True:
-	# 				r_p_y=[b_state.roll,b_state.pitch,b_state.yaw]
-	# 				print(r_p_y)
-	# 				data=struct.pack('3f',*r_p_y)
-	# 				conn.sendall(data)
-		print("x :", b_state.x)
-		print("y :", b_state.y)
-		print("speed = {}".format(b_state.speed))
+		with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+			s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+			s.bind((HOST, PORT))
+			s.listen()
+			conn, addr = s.accept()
+			with conn:
+				while True:
+					x=[b_state.x,b_state.y,b_state.speed]
+					delta_r,delta_s_max,q=regu_sailboat(x,angle(b_state.x_wind,b_state.y_wind),a,b,q)
+					u=np.array([[delta_r],[delta_s_max]])
+					xdot,delta_s=f(x,u)
+					# servo("Rudder",delta_r)
+					# servo("Sail",delta_s)
+					# r_p_y=[b_state.roll,b_state.pitch,b_state.yaw]
+					# print(r_p_y)
+					msg=[b_state.x,b_state.y,b_state.speed,b_state.yaw,b_state.x_wind,b_state.y_wind,delta_s,delta_r]
+					data=struct.pack('8f',*msg)
+					conn.sendall(data)
+		# print("x :", b_state.x)
+		# print("y :", b_state.y)
+		# print("speed = {}".format(b_state.speed))
 		# print("roll :",b_state.roll)
 		# print("pitch :",b_state.pitch)
 		# print("yaw : ", b_state.yaw)
