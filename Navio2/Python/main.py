@@ -87,7 +87,6 @@ def th_wind(dev) :
 
 
 def f(x,u):
-    x,u=x.flatten(),u.flatten()
     theta=b_state.yaw*pi/180; v=x[2]; delta_r=u[0]; delta_s_max=u[1];
     w_ap = np.array([[awind*np.cos(psi-theta) - v],[awind*np.sin(psi-theta)]])
     psi_ap = np.angle(w_ap)
