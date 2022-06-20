@@ -119,7 +119,6 @@ def regu_sailboat(a,b,q=1) :
     w_ap=np.array([[a_awx],[a_awy]])
     psi_ap = np.arctan2(w_ap[1,0],w_ap[0,0])
     a_ap=np.linalg.norm(w_ap)
-    print(a_ap,psi_ap,theta,speed)
     w_tr=np.array([[a_ap*np.cos(psi_ap-theta)+speed],[a_ap*np.sin(psi_ap-theta)]])
     psi_tr=np.arctan2(w_tr[1,0],w_tr[0,0])
     a_tr=np.linalg.norm(w_tr)    
