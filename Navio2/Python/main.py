@@ -49,6 +49,11 @@ class boat_state() :
 
 def th_gps(ubl) :
 	while not b_state.end :
+		msg=ubl.receive_message_nonblocking()
+		if msg.name()=="NAV_POSLLH" :
+			lon,lat=int(str(msg).split(",")[1][11:])/(10**7),int(str(msg).split(",")[2][10:])/(10**7)
+			b_state.x=lon
+			b_state.y=lat
 		gpss=gps(ubl)
 		if gpss != None :
 			b_state.x,b_state.y=gpss[0],gpss[1],gpss[2]
