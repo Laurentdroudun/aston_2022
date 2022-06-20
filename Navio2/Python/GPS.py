@@ -41,13 +41,13 @@ def init_gps() :
 
 def gps(ubl) :
     msg = ubl.receive_message_nonblocking()
-    # if msg is None:
-    #     if opts.reopen:
-    #         ubl.close()
-    #         ubl = navio2.ublox.UBlox("spi:0.0", baudrate=5000000, timeout=2)
-    #     return None
+    if msg is None:
+        if opts.reopen:
+            ubl.close()
+            ubl = navio2.ublox.UBlox("spi:0.0", baudrate=5000000, timeout=2)
+        return None
     if msg.name() == "NAV_PVT" :
-        lon,lat,speed=int(str(msg).split(",")[14][5:]),int(str(msg).split(",")[15][5:]),int(str(msg).split(",")[23][8:])
+        lon,lat,speed=[int(str(msg).split(",")[14][5:]),int(str(msg).split(",")[15][5:]),int(str(msg).split(",")[23][8:])]
         return lon,lat,speed
     # if msg.name() == "NAV_POSLLH":
     #     print(msg)
@@ -62,7 +62,7 @@ def gps(ubl) :
 if __name__=="__main__" :
     ubl=init_gps()
     while True :
-        if gps(ubl)!=None :
-            print(gps(ubl))
-            lon,lat,speed=gps(ubl)
+        data=gps(ubl)
+        if len(data)==3 :
+            lon,lat,speed=data.flatten()
             print("lon = {} | lat = {} | speed = {}".format(lon,lat,speed))
