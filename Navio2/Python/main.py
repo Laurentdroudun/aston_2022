@@ -107,8 +107,8 @@ def f(x,u):
     return xdot,delta_s
 
 def regu_sailboat(x,psi,a,b,q=1) :
-    m=np.array([[x.flatten()[0]],[x.flatten()[1]]])
-    theta=x.flatten()[2]
+    m=np.array([[x[0]],[x[1]]])
+    theta=b_state.yaw*pi/180
     r=10
     biz=pi/4
     gamma_inf=pi/4
