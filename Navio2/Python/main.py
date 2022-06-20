@@ -110,7 +110,8 @@ def th_wind(dev) :
 #     return xdot,delta_s,psi_tr
 
 def regu_sailboat(a,b,q=1) :
-    m=np.array([[b_state.x],[b_state.y]])
+	m=np.array([[0],[0]])
+    # m=np.array([[b_state.x],[b_state.y]])
     speed=b_state.speed
     theta=b_state.yaw*pi/180
     a_awx=-1; a_awy=1;
@@ -179,8 +180,8 @@ if __name__ == "__main__" :
 			s.bind((HOST, PORT))
 			s.listen()
 			conn, addr = s.accept()
-			a=np.array([[52.487017768311816],[-1.8905418728668375]])
-			b=np.array([[52.486142306649164],[-1.8893885228507639]])
+			a=np.array([[0],[0]])
+			b=np.array([[5],[0]])
 			with conn:
 				while True:
 					delta_r,q,delta_s=regu_sailboat(a,b,q)
