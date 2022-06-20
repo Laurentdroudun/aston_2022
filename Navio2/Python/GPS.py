@@ -62,7 +62,7 @@ def gps(ubl) :
 if __name__=="__main__" :
     ubl=init_gps()
     while True :
-        if gps(ubl) is not None :
+        if gps(ubl)!=None :
             print(gps(ubl))
             lon,lat,speed=gps(ubl)
             print("lon = {} | lat = {} | speed = {}".format(lon,lat,speed))
