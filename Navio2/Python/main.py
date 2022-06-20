@@ -161,6 +161,8 @@ if __name__ == "__main__" :
 			s.bind((HOST, PORT))
 			s.listen()
 			conn, addr = s.accept()
+			a=[52.487017768311816, -1.8905418728668375]
+			b=[52.486142306649164, -1.8893885228507639]
 			with conn:
 				while True:
 					x=[b_state.x,b_state.y,b_state.speed]
