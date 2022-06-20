@@ -55,7 +55,7 @@ def th_gps(ubl) :
 				b_state.x=gpss[1]
 				b_state.y=gpss[2]
 			if gpss[0]=="speed" :
-				b_state.speed=float(gpss[1])
+				b_state.speed=float(gpss[1])/1000
 		# msg=ubl.receive_message_nonblocking()
 		# if msg is None :
 		# 	if opts.reopen:

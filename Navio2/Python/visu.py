@@ -32,8 +32,8 @@ if __name__ == "__main__" :
 				data=struct.unpack('8f',data)
 			except :
 				continue
-			x,y,speed,yaw,x_wind,y_wind,delta_s,delta_r
-			print("x = {} | y = {} | speed = {} | yaw = {} | x_wind = {} | y_wind = {} | delta_s = {} | delta_r = {}".format(x,y,speed,yaw,x_wind,y_wind,delta_s,delta_r))
+			x,y,speed,yaw,x_wind,y_wind,delta_s,delta_r=data
+			print("x = {} | y = {} | speed = {} | yaw = {} | x_wind = {} | y_wind = {} | delta_s = {} | delta_r = {}\n\n".format(x,y,speed,yaw,x_wind,y_wind,delta_s,delta_r))
 			if abs(old_yaw-yaw) < 100 :
 				s_boat.rotate(angle=radians(old_yaw-yaw),axis=vector(0,-1,0),origin=vector(0,0,0))
 				
