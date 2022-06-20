@@ -113,7 +113,7 @@ def regu_sailboat(x,psi,a,b,q=1) :
     biz=pi/4
     gamma_inf=pi/4
     delta_r_max=1
-    e=np.det(np.hstack(((b-a)/np.norm(b-a),m-a)))
+    e=np.linalg.det(np.hstack(((b-a)/np.norm(b-a),m-a)))
     if abs(e)>r/2 :
         q=sign(e)
     phi=np.arctan2((b-a)[1,0],(b-a)[0,0])
