@@ -64,5 +64,5 @@ if __name__=="__main__" :
     while True :
         data=gps(ubl)
         if data!=None :
-            lon,lat,speed=data.flatten()
+            lon,lat,speed=data[0],data[1],data[2]
             print("lon = {} | lat = {} | speed = {}".format(lon,lat,speed))
