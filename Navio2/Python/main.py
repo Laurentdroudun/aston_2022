@@ -50,6 +50,10 @@ class boat_state() :
 def th_gps(ubl) :
 	while not b_state.end :
 		msg=ubl.receive_message_nonblocking()
+		if msg is None :
+			if opts.reopen:
+				ubl.close()
+				ubl=navio2.ublox.UBlox("spi:0.0",baudrate=5000000,timeout=2)
 		if msg.name()=="NAV_POSLLH" :
 			lon,lat=int(str(msg).split(",")[1][11:])/(10**7),int(str(msg).split(",")[2][10:])/(10**7)
 			b_state.x=lon
