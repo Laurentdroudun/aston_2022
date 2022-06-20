@@ -57,4 +57,4 @@ if __name__=="__main__" :
     while True :
         ubl=init_gps()
         lon_lat,vit=gps(ubl)
-        print("lon_lat : {}, vitesse : {}".format(lon_lat,vit)
+        print("lon_lat : {}, vitesse : {}".format(lon_lat,vit))
