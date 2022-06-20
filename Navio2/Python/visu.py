@@ -17,7 +17,7 @@ if __name__ == "__main__" :
 	mast_sail=compound([mast,sail])
 	s_boat=compound([rasp,mast_sail,front_b,rudder])
 	x_axis=arrow(pos=vector(0,0,0),axis=vector(1,0,0),color=color.blue)
-	wind=arrow(pos=vector(4,2,2),axis=vector(0,0,0),color=color.white)
+	wind=arrow(pos=vector(4,2,-2),axis=vector(-1,0,1),color=color.white)
 	# y_axis=arrow(pos=vector(0,0,0),axis=vector(0,0,1),color=color.green)
 	# z_axis=arrow(pos=vector(0,0,0),axis=vector(0,-1,0),color=color.orange)
 	# x_b=arrow(pos=vector(0,0,0),axis=vector(s_boat.axis.x,0,0))
@@ -36,9 +36,9 @@ if __name__ == "__main__" :
 			print("x = {} | y = {} | speed = {} | yaw = {} | x_wind = {} | y_wind = {} | delta_s = {} | delta_r = {}\n\n".format(x,y,speed,yaw,x_wind,y_wind,delta_s,delta_r))
 			if abs(old_yaw-yaw) < 100 :
 				s_boat.rotate(angle=radians(old_yaw-yaw),axis=vector(0,-1,0),origin=vector(0,0,0))
-				
+				sail.rotate(angle=radians())
 
-			wind.axis=vector(-1,0,1)
+			wind.axis=vector(x_wind,0,y_wind)
 			old_yaw,old_delta_s,old_delta_r=yaw,delta_s,delta_r
 			time.sleep(0.1)
 
