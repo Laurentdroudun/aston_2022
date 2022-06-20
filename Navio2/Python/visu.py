@@ -17,7 +17,7 @@ if __name__ == "__main__" :
 	mast_sail=compound([mast,sail])
 	s_boat=compound([rasp,mast_sail,front_b,rudder])
 	x_axis=arrow(pos=vector(0,0,0),axis=vector(1,0,0),color=color.blue)
-	wind=arrow(pos=vector(4,2,-2),axis=vector(-1,0,1),color=color.white)
+	wind=arrow(pos=vector(-4,2,-2),axis=vector(1,0,0),color=color.white)
 	# y_axis=arrow(pos=vector(0,0,0),axis=vector(0,0,1),color=color.green)
 	# z_axis=arrow(pos=vector(0,0,0),axis=vector(0,-1,0),color=color.orange)
 	# x_b=arrow(pos=vector(0,0,0),axis=vector(s_boat.axis.x,0,0))

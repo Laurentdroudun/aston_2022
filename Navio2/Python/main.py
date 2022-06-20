@@ -114,7 +114,7 @@ def regu_sailboat(a,b,q=1) :
     # m=np.array([[b_state.x],[b_state.y]])
     speed=b_state.speed
     theta=b_state.yaw*pi/180
-    a_awx=-1; a_awy=1;
+    a_awx=1; a_awy=0;
     # a_awx=b_state.x_wind; a_awy=b_state.y_wind;
     w_ap=np.array([[a_awx],[a_awy]])
     psi_ap = np.arctan2(w_ap[1,0],w_ap[0,0])
@@ -186,7 +186,7 @@ if __name__ == "__main__" :
 					delta_r,q,delta_s=regu_sailboat(a,b,q)
 					# servo("Rudder",delta_r)
 					# servo("Sail",delta_s)
-					msg=[b_state.x,b_state.y,b_state.speed,b_state.yaw,-1,1,delta_s,delta_r]
+					msg=[b_state.x,b_state.y,b_state.speed,b_state.yaw,1,0,delta_s,delta_r]
 					data=struct.pack('8f',*msg)
 					conn.sendall(data)
 		# print("x :", b_state.x)
