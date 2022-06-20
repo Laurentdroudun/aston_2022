@@ -110,7 +110,7 @@ def th_wind(dev) :
 #     return xdot,delta_s,psi_tr
 
 def regu_sailboat(a,b,q=1) :
-	m=np.array([[0],[0]])
+    m=np.array([[0],[0]])
     # m=np.array([[b_state.x],[b_state.y]])
     speed=b_state.speed
     theta=b_state.yaw*pi/180
