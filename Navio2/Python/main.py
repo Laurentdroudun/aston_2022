@@ -86,28 +86,39 @@ def th_wind(dev) :
 		b_state.x_wind,b_state.y_wind=wind(dev)[0],wind(dev)[1]
 
 
-def f(x,u):
-    theta=b_state.yaw*pi/180; v=x[2]; delta_r=u[0]; delta_s_max=u[1];
-    w_ap = np.array([[awind*np.cos(psi-theta) - v],[awind*np.sin(psi-theta)]])
-    psi_ap = np.angle(w_ap)
-    a_ap=np.linalg.norm(w_ap)
-    sigma = np.cos(psi_ap) + np.cos(delta_s_max)
-    if sigma < 0 :
-        delta_s = pi + psi_ap
-    else :
-        delta_s = -np.sign(np.sin(psi_ap))*delta_s_max
-    fr = p4*v*np.sin(delta_r)
-    fs = p3*a_ap* np.sin(delta_s - psi_ap)
-    dx=v*np.cos(theta) + p0*awind*np.cos(psi)
-    dy=v*np.sin(theta) + p0*awind*np.sin(psi)
-    dv=(fs*np.sin(delta_s)-fr*np.sin(delta_r)-p1*v**2)/p8
-    # dw=(fs*(p5-p6*cos(delta_s)) - p7*fr*cos(delta_r) - p2*w*v)/p9
-    xdot=np.array([[dx],[dy],[dv]])
-    return xdot,delta_s
+# def f(x,u):
+#     theta=b_state.yaw*pi/180; v=x[2]; a_awx=b_state.x_wind; a_awy=b_state.y_wind; delta_r=u[0]; delta_s_max=u[1];
+#     w_ap=np.array([[a_awx],[a_awy]])
+#     # w_ap = np.array([[awind*np.cos(psi_tr-theta) - v],[awind*np.sin(psi_tr-theta)]])
+#     psi_ap = np.angle(w_ap)
+#     a_ap=np.linalg.norm(w_ap)
+#     sigma = np.cos(psi_ap) + np.cos(delta_s_max)
+#     if sigma < 0 :
+#         delta_s = pi + psi_ap
+#     else :
+#         delta_s = -np.sign(np.sin(psi_ap))*delta_s_max
+#     fr = p4*v*np.sin(delta_r)
+#     fs = p3*a_ap* np.sin(delta_s - psi_ap)
+#     w_tr=np.array([[a_ap*np.cos(psi_ap_theta)+v],[a_ap*np.sin(psi_ap-theta)]])
+#     psi_tr=np.angle(w_tr)
+#     a_tr=np.linalg.norm(w_tr)
+#     dx=v*np.cos(theta) + p0*a_tr*np.cos(psi_tr)
+#     dy=v*np.sin(theta) + p0*a_tr*np.sin(psi_tr)
+#     dv=(fs*np.sin(delta_s)-fr*np.sin(delta_r)-p1*v**2)/p8
+#     # dw=(fs*(p5-p6*cos(delta_s)) - p7*fr*cos(delta_r) - p2*w*v)/p9
+#     xdot=np.array([[dx],[dy],[dv]])
+#     return xdot,delta_s,psi_tr
 
-def regu_sailboat(x,psi,a,b,q=1) :
+def regu_sailboat(x,a,b,q=1) :
     m=np.array([[x[0]],[x[1]]])
     theta=b_state.yaw*pi/180
+    a_awx=b_state.x_wind; a_awy=b_state.y_wind;
+    w_ap=np.array([[a_awx],[a_awy]])
+	psi_ap = np.angle(w_ap)
+    a_ap=np.linalg.norm(w_ap)
+    w_tr=np.array([[a_ap*np.cos(psi_ap_theta)+v],[a_ap*np.sin(psi_ap-theta)]])
+    psi_tr=np.angle(w_tr)
+    a_tr=np.linalg.norm(w_tr)    
     r=10
     biz=pi/4
     gamma_inf=pi/4
@@ -117,14 +128,19 @@ def regu_sailboat(x,psi,a,b,q=1) :
         q=np.sign(e)
     phi=np.arctan2((b-a)[1,0],(b-a)[0,0])
     theta_b=phi-(2*gamma_inf*np.arctan(e/r))/pi
-    if np.cos(psi-theta_b)+np.cos(biz)<0 or (abs(e)<r and np.cos(psi-phi)+np.cos(biz)<0) :
-        theta_b=pi+psi-q*biz
+    if np.cos(psi_tr-theta_b)+np.cos(biz)<0 or (abs(e)<r and np.cos(psi_tr-phi)+np.cos(biz)<0) :
+        theta_b=pi+psi_tr-q*biz
     if np.cos(theta-theta_b) >= 0 :
         delta_r=delta_r_max*np.sin(theta-theta_b)
     else :
         delta_r=delta_r_max*np.sign(np.sin(theta-theta_b))
-    delta_s_max=(pi/2)*(np.cos(psi-theta_b)+1)/2
-    return delta_r,delta_s_max,q
+    delta_s_max=(pi/2)*(np.cos(psi_tr-theta_b)+1)/2
+    sigma = np.cos(psi_ap) + np.cos(delta_s_max)
+    if sigma < 0 :
+        delta_s = pi + psi_ap
+    else :
+        delta_s = -np.sign(np.sin(psi_ap))*delta_s_max
+    return delta_r,q,delta_s
 
 
 if __name__ == "__main__" :
@@ -165,13 +181,9 @@ if __name__ == "__main__" :
 			with conn:
 				while True:
 					x=[b_state.x,b_state.y,b_state.speed]
-					delta_r,delta_s_max,q=regu_sailboat(x,np.angle(b_state.x_wind,b_state.y_wind),a,b,q)
-					u=np.array([[delta_r],[delta_s_max]])
-					xdot,delta_s=f(x,u)
+					delta_r,q,delta_s=regu_sailboat(x,a,b,q)
 					# servo("Rudder",delta_r)
 					# servo("Sail",delta_s)
-					# r_p_y=[b_state.roll,b_state.pitch,b_state.yaw]
-					# print(r_p_y)
 					msg=[b_state.x,b_state.y,b_state.speed,b_state.yaw,b_state.x_wind,b_state.y_wind,delta_s,delta_r]
 					data=struct.pack('8f',*msg)
 					conn.sendall(data)
