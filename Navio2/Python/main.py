@@ -54,9 +54,8 @@ def th_gps(ubl) :
 			lon,lat=int(str(msg).split(",")[1][11:])/(10**7),int(str(msg).split(",")[2][10:])/(10**7)
 			b_state.x=lon
 			b_state.y=lat
-		gpss=gps(ubl)
-		if gpss != None :
-			b_state.x,b_state.y=gpss[0],gpss[1],gpss[2]
+		if msg.name()=="NAV_VELNED" :
+			speed=str(msg).split(",")[5][8:]
 
 def th_RPY(imu) :
 	i=0
@@ -126,7 +125,7 @@ if __name__ == "__main__" :
 	lsm,mpu=init_imu_lsm(),init_imu_mpu()
 #	dev=init_Calypso()
 
-	b_state=boat_state(0,0,0,0,0,0,0,0,0,0)
+	b_state=boat_state(0,0,0,0,0,0,0,0)
 
 	#Threads :
 	threads=[]
@@ -143,22 +142,20 @@ if __name__ == "__main__" :
 	# 	x=[b_state.x,b_state.y,b_state.vx,b_state.vy,b_state.vz,]
 	#Simulation :
 	while not b_state.end :
-		with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-			s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
-			s.bind((HOST, PORT))
-			s.listen()
-			conn, addr = s.accept()
-			with conn:
-				while True:
-					r_p_y=[b_state.roll,b_state.pitch,b_state.yaw]
-					print(r_p_y)
-					data=struct.pack('3f',*r_p_y)
-					conn.sendall(data)
-		# print("x :", b_state.x)
-		# print("y :", b_state.y)
-		# print("vx :", b_state.vx)
-		# print("vy :", b_state.vy)
-		# print("vz :", b_state.vz)
+	# 	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+	# 		s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+	# 		s.bind((HOST, PORT))
+	# 		s.listen()
+	# 		conn, addr = s.accept()
+	# 		with conn:
+	# 			while True:
+	# 				r_p_y=[b_state.roll,b_state.pitch,b_state.yaw]
+	# 				print(r_p_y)
+	# 				data=struct.pack('3f',*r_p_y)
+	# 				conn.sendall(data)
+		print("x :", b_state.x)
+		print("y :", b_state.y)
+		print("speed = {}".format(b_state.speed))
 		# print("roll :",b_state.roll)
 		# print("pitch :",b_state.pitch)
 		# print("yaw : ", b_state.yaw)
