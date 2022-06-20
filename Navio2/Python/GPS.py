@@ -63,6 +63,6 @@ if __name__=="__main__" :
     ubl=init_gps()
     while True :
         data=gps(ubl)
-        if len(data)==3 :
+        if data!=None :
             lon,lat,speed=data.flatten()
             print("lon = {} | lat = {} | speed = {}".format(lon,lat,speed))
