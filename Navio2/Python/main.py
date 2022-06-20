@@ -87,9 +87,9 @@ def th_wind(dev) :
 
 
 # def f(x,u):
-#     theta=b_state.yaw*pi/180; v=x[2]; a_awx=b_state.x_wind; a_awy=b_state.y_wind; delta_r=u[0]; delta_s_max=u[1];
+#     theta=b_state.yaw*pi/180; speed=x[2]; a_awx=b_state.x_wind; a_awy=b_state.y_wind; delta_r=u[0]; delta_s_max=u[1];
 #     w_ap=np.array([[a_awx],[a_awy]])
-#     # w_ap = np.array([[awind*np.cos(psi_tr-theta) - v],[awind*np.sin(psi_tr-theta)]])
+#     # w_ap = np.array([[awind*np.cos(psi_tr-theta) - speed],[awind*np.sin(psi_tr-theta)]])
 #     psi_ap = np.angle(w_ap)
 #     a_ap=np.linalg.norm(w_ap)
 #     sigma = np.cos(psi_ap) + np.cos(delta_s_max)
@@ -97,26 +97,27 @@ def th_wind(dev) :
 #         delta_s = pi + psi_ap
 #     else :
 #         delta_s = -np.sign(np.sin(psi_ap))*delta_s_max
-#     fr = p4*v*np.sin(delta_r)
+#     fr = p4*speed*np.sin(delta_r)
 #     fs = p3*a_ap* np.sin(delta_s - psi_ap)
-#     w_tr=np.array([[a_ap*np.cos(psi_ap_theta)+v],[a_ap*np.sin(psi_ap-theta)]])
+#     w_tr=np.array([[a_ap*np.cos(psi_ap_theta)+speed],[a_ap*np.sin(psi_ap-theta)]])
 #     psi_tr=np.angle(w_tr)
 #     a_tr=np.linalg.norm(w_tr)
-#     dx=v*np.cos(theta) + p0*a_tr*np.cos(psi_tr)
-#     dy=v*np.sin(theta) + p0*a_tr*np.sin(psi_tr)
-#     dv=(fs*np.sin(delta_s)-fr*np.sin(delta_r)-p1*v**2)/p8
-#     # dw=(fs*(p5-p6*cos(delta_s)) - p7*fr*cos(delta_r) - p2*w*v)/p9
+#     dx=speed*np.cos(theta) + p0*a_tr*np.cos(psi_tr)
+#     dy=speed*np.sin(theta) + p0*a_tr*np.sin(psi_tr)
+#     dv=(fs*np.sin(delta_s)-fr*np.sin(delta_r)-p1*speed**2)/p8
+#     # dw=(fs*(p5-p6*cos(delta_s)) - p7*fr*cos(delta_r) - p2*w*speed)/p9
 #     xdot=np.array([[dx],[dy],[dv]])
 #     return xdot,delta_s,psi_tr
 
-def regu_sailboat(x,a,b,q=1) :
-    m=np.array([[x[0]],[x[1]]])
+def regu_sailboat(a,b,q=1) :
+    m=np.array([[b_state.x],[b_state.y]])
+    speed=b_state.speed
     theta=b_state.yaw*pi/180
     a_awx=b_state.x_wind; a_awy=b_state.y_wind;
     w_ap=np.array([[a_awx],[a_awy]])
     psi_ap = np.angle(w_ap)
     a_ap=np.linalg.norm(w_ap)
-    w_tr=np.array([[a_ap*np.cos(psi_ap-theta)+v],[a_ap*np.sin(psi_ap-theta)]])
+    w_tr=np.array([[a_ap*np.cos(psi_ap-theta)+speed],[a_ap*np.sin(psi_ap-theta)]])
     psi_tr=np.angle(w_tr)
     a_tr=np.linalg.norm(w_tr)    
     r=10
@@ -180,8 +181,7 @@ if __name__ == "__main__" :
 			b=np.array([[52.486142306649164],[-1.8893885228507639]])
 			with conn:
 				while True:
-					x=[b_state.x,b_state.y,b_state.speed]
-					delta_r,q,delta_s=regu_sailboat(x,a,b,q)
+					delta_r,q,delta_s=regu_sailboat(a,b,q)
 					# servo("Rudder",delta_r)
 					# servo("Sail",delta_s)
 					msg=[b_state.x,b_state.y,b_state.speed,b_state.yaw,b_state.x_wind,b_state.y_wind,delta_s,delta_r]
