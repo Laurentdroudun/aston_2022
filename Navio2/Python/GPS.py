@@ -48,7 +48,7 @@ def gps(ubl) :
         # print(empty)
     if msg.name() == "NAV_POSLLH":
         # lon_lat,vit = [int(str(msg).split(",")[1][11:]),int(str(msg).split(",")[2][10:])],str(msg)
-        vit=str(ms)
+        vit=str(msg)
         return vit                       #Returns the longitude and the latitude 
     if msg.name() == "NAV_STATUS":
         outstr = str(msg).split(",")[1:2]
