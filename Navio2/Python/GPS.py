@@ -45,7 +45,7 @@ def gps(ubl) :
         if opts.reopen:
             ubl.close()
             ubl = navio2.ublox.UBlox("spi:0.0", baudrate=5000000, timeout=2)
-        # print(empty)
+        print(empty)
     if msg.name() == "NAV_POSLLH":
         print(msg)
         lon_lat,vit = [int(str(msg).split(",")[1][11:]),int(str(msg).split(",")[2][10:])]
@@ -54,6 +54,7 @@ def gps(ubl) :
     if msg.name() == "NAV_STATUS":
         outstr = str(msg).split(",")[1:2]
         outstr = "".join(outstr)
+        print(msg)
 
 if __name__=="__main__" :
     while True :
