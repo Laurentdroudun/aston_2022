@@ -50,7 +50,6 @@ class boat_state() :
 def th_gps(ubl) :
 	while not b_state.end :
 		gpss=gps(ubl)
-		print(gpss)
 		if gpss!=None :
 			if gpss[0]=="lon_lat" :
 				b_state.x=gpss[1]
@@ -156,7 +155,6 @@ if __name__ == "__main__" :
 	# 	x=[b_state.x,b_state.y,b_state.vx,b_state.vy,b_state.vz,]
 	#Simulation :
 	while not b_state.end :
-		x=2
 	# 	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 	# 		s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
 	# 		s.bind((HOST, PORT))
@@ -168,9 +166,9 @@ if __name__ == "__main__" :
 	# 				print(r_p_y)
 	# 				data=struct.pack('3f',*r_p_y)
 	# 				conn.sendall(data)
-		# print("x :", b_state.x)
-		# print("y :", b_state.y)
-		# print("speed = {}".format(b_state.speed))
+		print("x :", b_state.x)
+		print("y :", b_state.y)
+		print("speed = {}".format(b_state.speed))
 		# print("roll :",b_state.roll)
 		# print("pitch :",b_state.pitch)
 		# print("yaw : ", b_state.yaw)
