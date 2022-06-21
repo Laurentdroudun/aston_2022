@@ -1,2 +1,3 @@
-# aston_2022
-Aston Robotic Internship of Laurent Droudun.
+# Navio python drivers
+
+Drivers for devices on Navio 2 board
