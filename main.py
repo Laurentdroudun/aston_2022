@@ -77,7 +77,7 @@ def regu_sailboat(a,b,q=1) :
     # m=np.array([[b_state.x],[b_state.y]])
     speed=b_state.speed
     theta=b_state.yaw*pi/180
-    a_awx=20; a_awy=0;
+    a_awx=200; a_awy=2;
     # a_awx=b_state.x_wind; a_awy=b_state.y_wind;
     w_ap=np.array([[a_awx],[a_awy]])
     psi_ap = np.arctan2(w_ap[1,0],w_ap[0,0])
@@ -103,7 +103,7 @@ def regu_sailboat(a,b,q=1) :
     delta_s_max=(pi/2)*(np.cos(psi_tr-theta_b)+1)/2
     # print(delta_s_max)
     sigma = np.cos(psi_ap) + np.cos(delta_s_max)
-    print(sigma)
+    # print(sigma)
     if sigma < 0 :
         delta_s = pi + psi_ap
     else :
