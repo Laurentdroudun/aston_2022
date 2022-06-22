@@ -56,19 +56,6 @@ def th_gps(ubl) :
 				b_state.y=gpss[2]
 			if gpss[0]=="speed" :
 				b_state.speed=float(gpss[1])/1000
-		# msg=ubl.receive_message_nonblocking()
-		# if msg is None :
-		# 	if opts.reopen:
-		# 		ubl.close()
-		# 		ubl=navio2.ublox.UBlox("spi:0.0",baudrate=5000000,timeout=2)
-		# if msg.name()=="NAV_POSLLH" :
-		# 	print(msg)
-		# 	lon,lat=int(str(msg).split(",")[1][11:])/(10**7),int(str(msg).split(",")[2][10:])/(10**7)
-		# 	b_state.x=lon
-		# 	b_state.y=lat
-		# if msg.name()=="NAV_VELNED" :
-		# 	print(msg)
-		# 	speed=str(msg).split(",")[5][8:]
 
 def th_RPY(imu) :
 	i=0
@@ -85,36 +72,12 @@ def th_wind(dev) :
 	while not b_state.end :
 		b_state.x_wind,b_state.y_wind=wind(dev)[0],wind(dev)[1]
 
-
-# def f(x,u):
-#     theta=b_state.yaw*pi/180; speed=x[2]; a_awx=b_state.x_wind; a_awy=b_state.y_wind; delta_r=u[0]; delta_s_max=u[1];
-#     w_ap=np.array([[a_awx],[a_awy]])
-#     # w_ap = np.array([[awind*np.cos(psi_tr-theta) - speed],[awind*np.sin(psi_tr-theta)]])
-#     psi_ap = np.angle(w_ap)
-#     a_ap=np.linalg.norm(w_ap)
-#     sigma = np.cos(psi_ap) + np.cos(delta_s_max)
-#     if sigma < 0 :
-#         delta_s = pi + psi_ap
-#     else :
-#         delta_s = -np.sign(np.sin(psi_ap))*delta_s_max
-#     fr = p4*speed*np.sin(delta_r)
-#     fs = p3*a_ap* np.sin(delta_s - psi_ap)
-#     w_tr=np.array([[a_ap*np.cos(psi_ap_theta)+speed],[a_ap*np.sin(psi_ap-theta)]])
-#     psi_tr=np.angle(w_tr)
-#     a_tr=np.linalg.norm(w_tr)
-#     dx=speed*np.cos(theta) + p0*a_tr*np.cos(psi_tr)
-#     dy=speed*np.sin(theta) + p0*a_tr*np.sin(psi_tr)
-#     dv=(fs*np.sin(delta_s)-fr*np.sin(delta_r)-p1*speed**2)/p8
-#     # dw=(fs*(p5-p6*cos(delta_s)) - p7*fr*cos(delta_r) - p2*w*speed)/p9
-#     xdot=np.array([[dx],[dy],[dv]])
-#     return xdot,delta_s,psi_tr
-
 def regu_sailboat(a,b,q=1) :
     m=np.array([[0],[0]])
     # m=np.array([[b_state.x],[b_state.y]])
     speed=b_state.speed
     theta=b_state.yaw*pi/180
-    a_awx=1; a_awy=0;
+    a_awx=20; a_awy=0;
     # a_awx=b_state.x_wind; a_awy=b_state.y_wind;
     w_ap=np.array([[a_awx],[a_awy]])
     psi_ap = np.arctan2(w_ap[1,0],w_ap[0,0])
@@ -138,6 +101,7 @@ def regu_sailboat(a,b,q=1) :
     else :
         delta_r=delta_r_max*np.sign(np.sin(theta-theta_b))
     delta_s_max=(pi/2)*(np.cos(psi_tr-theta_b)+1)/2
+    print(delta_s_max)
     sigma = np.cos(psi_ap) + np.cos(delta_s_max)
     if sigma < 0 :
         delta_s = pi + psi_ap
