@@ -101,12 +101,13 @@ def regu_sailboat(a,b,q=1) :
     else :
         delta_r=delta_r_max*np.sign(np.sin(theta-theta_b))
     delta_s_max=(pi/2)*(np.cos(psi_tr-theta_b)+1)/2
-    print(delta_s_max)
+    # print(delta_s_max)
     sigma = np.cos(psi_ap) + np.cos(delta_s_max)
     if sigma < 0 :
         delta_s = pi + psi_ap
     else :
         delta_s = -np.sign(np.sin(psi_ap))*delta_s_max
+    print(delta_s)
     return delta_r,q,delta_s
 
 
