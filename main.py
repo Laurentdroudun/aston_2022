@@ -145,8 +145,8 @@ if __name__ == "__main__" :
 			s.bind((HOST, PORT))
 			s.listen()
 			conn, addr = s.accept()
-			a=np.array([[0],[0]])
-			b=np.array([[5],[0]])
+			a=np.array([[-3],[4]])
+			b=np.array([[5],[4]])
 			with conn:
 				while True:
 					delta_r,q,delta_s=regu_sailboat(a,b,q)
