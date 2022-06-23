@@ -16,9 +16,9 @@ if __name__ == "__main__" :
 	sail=triangle(v0=vertex(pos=vec(-0.2,3.5,0)),v1=vertex(pos=vec(-0.2,1,0)),v2=vertex(pos=vec(-2,1,0)))
 	mast_sail=compound([mast,sail])
 	s_boat=compound([rasp,front_b])
-	line_to_follow=cylinder(pos=vector(-5,0,4),length=15,axis=vector(1,0,0),radius=0.1,color=color.red)
+	line_to_follow=cylinder(pos=vector(-5,0,0),length=15,axis=vector(1,0,0),radius=0.1,color=color.red)
 	x_axis=arrow(pos=vector(0,0,0),axis=vector(1,0,0),color=color.blue)
-	wind=arrow(pos=vector(-4,2,-2),axis=vector(1,0,0),color=color.white)
+	wind=arrow(pos=vector(4,2,-2),axis=vector(-1,0,0),color=color.white)
 	y_axis=arrow(pos=vector(0,0,0),axis=vector(0,0,1),color=color.green)
 	z_axis=arrow(pos=vector(0,0,0),axis=vector(0,-1,0),color=color.orange)
 	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
