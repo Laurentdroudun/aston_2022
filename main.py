@@ -9,7 +9,7 @@ import navio2.lsm9ds1
 from numpy import pi
 import numpy as np
 import struct
-import math
+from math import *
 from bluepy import btle
 import spidev
 import socket
@@ -92,7 +92,7 @@ def regu_sailboat(a,b,q=1) :
     e=np.linalg.det(np.hstack(((b-a)/np.linalg.norm(b-a),m-a)))
     if abs(e)>r/2 :
         q=np.sign(e)
-    phi=np.arctan2((b-a)[1,0],(b-a)[0,0])
+    phi=atan2((b-a)[1,0],(b-a)[0,0])
     theta_b=phi-(2*gamma_inf*np.arctan(e/r))/pi
     if np.cos(psi_tr-theta_b)+np.cos(biz)<0 or (abs(e)<r and np.cos(psi_tr-phi)+np.cos(biz)<0) :
         theta_b=pi+psi_tr-q*biz
@@ -108,7 +108,7 @@ def regu_sailboat(a,b,q=1) :
         delta_s = pi + psi_ap
     else :
         delta_s = -np.sign(np.sin(psi_ap))*delta_s_max
-    # print(delta_s)
+    print(delta_s)
     return delta_r,q,delta_s
 
 
