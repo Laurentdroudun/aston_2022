@@ -75,25 +75,26 @@ def th_wind(dev) :
 def regu_sailboat(a,b,q=1) :
     m=np.array([[0],[0]])
     # m=np.array([[b_state.x],[b_state.y]])
-    speed=b_state.speed
+    # speed=b_state.speed
+    speed=0
     theta=b_state.yaw*pi/180
     a_awx=200; a_awy=2;
     # a_awx=b_state.x_wind; a_awy=b_state.y_wind;
     w_ap=np.array([[a_awx],[a_awy]])
     psi_ap = np.arctan2(w_ap[1,0],w_ap[0,0])
     a_ap=np.linalg.norm(w_ap)
-    w_tr=np.array([[a_ap*np.cos(psi_ap-theta)+speed],[a_ap*np.sin(psi_ap-theta)]])
+    w_tr=np.array([[-speed*np.cos((theta+pi)%2*pi)+a_ap*np.cos(psi_ap+theta)],[-speed*np.sin((theta+pi)%2*pi)+a_ap*np.sin(psi_ap+theta)]])
     psi_tr=np.arctan2(w_tr[1,0],w_tr[0,0])
     a_tr=np.linalg.norm(w_tr)    
     r=0.1
     biz=pi/4
     gamma_inf=pi/4
-    delta_r_max=1
+    delta_r_max=pi/4
     e=np.linalg.det(np.hstack(((b-a)/np.linalg.norm(b-a),m-a)))
     if abs(e)>r/2 :
         q=np.sign(e)
-    phi=atan2((b-a)[1,0],(b-a)[0,0])
-    theta_b=phi-(2*gamma_inf*np.arctan(e/r))/pi
+    phi=np.arctan2((b-a)[1,0],(b-a)[0,0])
+    theta_b=phi-(2*gamma_inf*np.arctan2(e,r))/pi
     if np.cos(psi_tr-theta_b)+np.cos(biz)<0 or (abs(e)<r and np.cos(psi_tr-phi)+np.cos(biz)<0) :
         theta_b=pi+psi_tr-q*biz
     if np.cos(theta-theta_b) >= 0 :
