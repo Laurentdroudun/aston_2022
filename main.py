@@ -143,7 +143,7 @@ if __name__ == "__main__" :
 	q=1
 	while not b_state.end :
 		print("Vent x : {}, Vent y : {}, Angle : {}".format(b_state.x_wind,b_state.y_wind,b_state.wind_dir))
-		time.sleep(1)
+		time.sleep(0.5)
 		# with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 		# 	s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
 		# 	s.bind((HOST, PORT))
