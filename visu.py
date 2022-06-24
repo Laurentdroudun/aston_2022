@@ -16,7 +16,6 @@ if __name__ == "__main__" :
 		data=s.recv(1024)
 		data=struct.unpack('8f',data)
 		x,y,speed,yaw,x_wind,y_wind,delta_s,delta_r=data
-		scene_b.origin=vector(x,0,-y)
 		scene_b=canvas(center=vector(x,0,-y))
 		rasp=box(canvas=scene_b,pos=vector(0,0,0),length=4,height=1,width=2,color=color.red)
 		mast=cylinder(canvas=scene_b,pos=vector(0,0.5,0),length=3,axis=vector(0,1,0),radius=0.2,color=color.red)

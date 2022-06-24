@@ -72,6 +72,7 @@ def th_RPY(imu) :
 def th_wind(dev) :
 	while not b_state.end :
 		vent=wind(dev)
+		print(vent)
 		if vent[0]=="marche" :
 			b_state.x_wind,b_state.y_wind,b_state.wind_dir=vent[1:]
 
