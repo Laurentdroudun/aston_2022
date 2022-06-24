@@ -147,7 +147,7 @@ def wind(dev) :
         dev.waitForNotifications(1.0)
         return(dev.delegate.getWind())
     except:
-        break
+        continue
      # if(dev.delegate.getBattery() != 0):
      #     print(dev.delegate.getBattery())
 
