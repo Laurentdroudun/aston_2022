@@ -159,6 +159,6 @@ if __name__ == "__main__" :
 					delta_r,q,delta_s=regu_sailboat(a,b,q)
 					# servo("Rudder",delta_r)
 					# servo("Sail",delta_s)
-					msg=[b_state.x,b_state.y,b_state.speed,b_state.yaw,1,0,delta_s,delta_r]
+					msg=[b_state.x,b_state.y,b_state.speed,b_state.yaw,b_state.x_wind,b_state.y_wind,delta_s,delta_r]
 					data=struct.pack('8f',*msg)
 					conn.sendall(data)
