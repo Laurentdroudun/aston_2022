@@ -15,9 +15,9 @@ import spidev
 import socket
 from Servo_laulo import servo  								#servo(piece_pin,angle)
 # from LED import led										#led(color)
-from GPS import gps										#gps(ubl)
+from GPS import gps											#gps(ubl)
 from GPS import init_gps								#init_gps() renvoie ubl
-from ADC import voltage 								#voltage(adc,results)
+from ADC import voltage 									#voltage(adc,results)
 from ADC import init_adc								#renvoie adc et results 
 from AccelGyroMag import acc_gyr_mag,rpy		#imu(sensor='lsm')
 from AccelGyroMag import init_imu_lsm					#renvoie imu comme lsm
@@ -35,7 +35,7 @@ PORT = 65432
 HOST = "navio.local"
 
 class boat_state() :
-	def __init__(self,x,y,speed,roll,pitch,yaw,x_wind,y_wind) :
+	def __init__(self,x,y,speed,roll,pitch,yaw,x_wind,y_wind,wind_dir) :
 		self.x=x
 		self.y=y
 		self.speed=speed
@@ -44,6 +44,7 @@ class boat_state() :
 		self.yaw=yaw
 		self.x_wind=x_wind
 		self.y_wind=y_wind
+		self.wind_dir=wind_dir
 		self.end=False
 		self.tab_rpy=np.array([[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]])
 
@@ -70,7 +71,7 @@ def th_RPY(imu) :
 
 def th_wind(dev) :
 	while not b_state.end :
-		b_state.x_wind,b_state.y_wind=wind(dev)[0],wind(dev)[1]
+		b_state.x_wind,b_state.y_wind,b_state.wind_dir=wind(dev)
 
 def regu_sailboat(a,b,q=1) :
     m=np.array([[0],[0]])
@@ -121,7 +122,7 @@ if __name__ == "__main__" :
 	ubl=init_gps()
 	adc,results=init_adc()
 	lsm,mpu=init_imu_lsm(),init_imu_mpu()
-#	dev=init_Calypso()
+	dev=init_Calypso()
 
 	b_state=boat_state(0,0,0,0,0,0,0,0)
 
@@ -129,8 +130,8 @@ if __name__ == "__main__" :
 	threads=[]
 	thread_gps=Thread(None,th_gps,args=(ubl,))
 	thread_RPY=Thread(None,th_RPY,args=(lsm,))
-#	thread_wind=Thread(None,th_wind,args=(dev,))
-#	threads.append(thread_wind)
+	thread_wind=Thread(None,th_wind,args=(dev,))
+	threads.append(thread_wind)
 	threads.append(thread_RPY)
 	threads.append(thread_gps)
 	for t in threads :
@@ -141,18 +142,20 @@ if __name__ == "__main__" :
 	#Simulation :
 	q=1
 	while not b_state.end :
-		with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-			s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
-			s.bind((HOST, PORT))
-			s.listen()
-			conn, addr = s.accept()
-			a=np.array([[-3],[4]])
-			b=np.array([[5],[4]])
-			with conn:
-				while True:
-					delta_r,q,delta_s=regu_sailboat(a,b,q)
-					# servo("Rudder",delta_r)
-					# servo("Sail",delta_s)
-					msg=[b_state.x,b_state.y,b_state.speed,b_state.yaw,1,0,delta_s,delta_r]
-					data=struct.pack('8f',*msg)
-					conn.sendall(data)
+		print("Vent x : {}, Vent y : {}, Angle : {}".format(b_state.x_wind,b_state.y_wind,b_state.wind_dir))
+		time.sleep(1)
+		# with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+		# 	s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+		# 	s.bind((HOST, PORT))
+		# 	s.listen()
+		# 	conn, addr = s.accept()
+		# 	a=np.array([[-3],[4]])
+		# 	b=np.array([[5],[4]])
+		# 	with conn:
+		# 		while True:
+		# 			delta_r,q,delta_s=regu_sailboat(a,b,q)
+		# 			# servo("Rudder",delta_r)
+		# 			# servo("Sail",delta_s)
+		# 			msg=[b_state.x,b_state.y,b_state.speed,b_state.yaw,1,0,delta_s,delta_r]
+		# 			data=struct.pack('8f',*msg)
+		# 			conn.sendall(data)

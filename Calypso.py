@@ -132,11 +132,11 @@ def init_Calypso(mac_addr="D8:2F:C8:9A:F8:A7") :
 
     infoService = dev.getServiceByUUID(btle.UUID(INFO_SERVICE))
     manuf_charac = infoService.getCharacteristics(INFO_MANUF_CHARAC_IN)[0]
-    print('Manufacturer : ' + str(manuf_charac.read()))
+    # print('Manufacturer : ' + str(manuf_charac.read()))
     model_charac = infoService.getCharacteristics(INFO_MODEL_CHARAC_IN)[0]
-    print('Model : ' + str(model_charac.read()))
+    # print('Model : ' + str(model_charac.read()))
 
-    print('Turning on notification')
+    # print('Turning on notification')
     ch = dataService.getCharacteristics()[0]
     dev.writeCharacteristic(ch.valHandle+1, b"\x01\x00")
     return dev
@@ -146,7 +146,7 @@ def wind(dev) :
         dev.waitForNotifications(1.0)
         return(dev.delegate.getWind())
     except:
-        return(100000000,100000000)
+        return(0,0,0)
      # if(dev.delegate.getBattery() != 0):
      #     print(dev.delegate.getBattery())
 
