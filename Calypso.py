@@ -145,9 +145,9 @@ def init_Calypso(mac_addr="D8:2F:C8:9A:F8:A7") :
 def wind(dev) :
     try:
         dev.waitForNotifications(1.0)
-        return(dev.delegate.getWind())
+        return("marche",dev.delegate.getWind())
     except:
-        return(0,0,0)
+        return("bug",0,0,0)
      # if(dev.delegate.getBattery() != 0):
      #     print(dev.delegate.getBattery())
 

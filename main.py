@@ -71,7 +71,10 @@ def th_RPY(imu) :
 
 def th_wind(dev) :
 	while not b_state.end :
-		b_state.x_wind,b_state.y_wind,b_state.wind_dir=wind(dev)
+		vent=wind(dev)
+		if vent[0]=="marche" :
+			b_state.x_wind,b_state.y_wind,b_state.wind_dir=vent[1:]
+
 
 def regu_sailboat(a,b,q=1) :
     m=np.array([[0],[0]])
@@ -142,20 +145,20 @@ if __name__ == "__main__" :
 	#Simulation :
 	q=1
 	while not b_state.end :
-		print("Vent x : {}, Vent y : {}, Angle : {}".format(b_state.x_wind,b_state.y_wind,b_state.wind_dir))
-		time.sleep(0.5)
-		# with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-		# 	s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
-		# 	s.bind((HOST, PORT))
-		# 	s.listen()
-		# 	conn, addr = s.accept()
-		# 	a=np.array([[-3],[4]])
-		# 	b=np.array([[5],[4]])
-		# 	with conn:
-		# 		while True:
-		# 			delta_r,q,delta_s=regu_sailboat(a,b,q)
-		# 			# servo("Rudder",delta_r)
-		# 			# servo("Sail",delta_s)
-		# 			msg=[b_state.x,b_state.y,b_state.speed,b_state.yaw,1,0,delta_s,delta_r]
-		# 			data=struct.pack('8f',*msg)
-		# 			conn.sendall(data)
+		# print("Vent x : {}, Vent y : {}, Angle : {}".format(b_state.x_wind,b_state.y_wind,b_state.wind_dir))
+		# time.sleep(0.5)
+		with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+			s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+			s.bind((HOST, PORT))
+			s.listen()
+			conn, addr = s.accept()
+			a=np.array([[-3],[4]])
+			b=np.array([[5],[4]])
+			with conn:
+				while True:
+					delta_r,q,delta_s=regu_sailboat(a,b,q)
+					# servo("Rudder",delta_r)
+					# servo("Sail",delta_s)
+					msg=[b_state.x,b_state.y,b_state.speed,b_state.yaw,1,0,delta_s,delta_r]
+					data=struct.pack('8f',*msg)
+					conn.sendall(data)
