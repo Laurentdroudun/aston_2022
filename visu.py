@@ -5,6 +5,7 @@ import time
 import numpy as np
 from numpy import sin,cos
 from math import *
+import os
 HOST = "navio.local"  # The server's hostname or IP address
 PORT = 65432  # The port used by the server
 
@@ -16,9 +17,9 @@ if __name__ == "__main__" :
 	sail=triangle(v0=vertex(pos=vec(-0.2,3.5,0)),v1=vertex(pos=vec(-0.2,1,0)),v2=vertex(pos=vec(-2,1,0)))
 	mast_sail=compound([mast,sail])
 	s_boat=compound([rasp,front_b])
-	line_to_follow=cylinder(pos=vector(-5,0,0),length=15,axis=vector(1,0,0),radius=0.1,color=color.red)
+	line_to_follow=cylinder(pos=vector(-5,0,-3),length=15,axis=vector(1,0,0),radius=0.1,color=color.red)
 	x_axis=arrow(pos=vector(0,0,0),axis=vector(1,0,0),color=color.blue)
-	wind=arrow(pos=vector(4,2,-2),axis=vector(-1,0,0),color=color.white)
+	wind=arrow(pos=vector(-4,2,-2),axis=vector(1,0,0),color=color.white)
 	y_axis=arrow(pos=vector(0,0,0),axis=vector(0,0,1),color=color.green)
 	z_axis=arrow(pos=vector(0,0,0),axis=vector(0,-1,0),color=color.orange)
 	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -32,13 +33,13 @@ if __name__ == "__main__" :
 			except :
 				continue
 			x,y,speed,yaw,x_wind,y_wind,delta_s,delta_r=data
+			
 			print("x = {} | y = {} | speed = {} | yaw = {} | x_wind = {} | y_wind = {} | delta_s = {} | delta_r = {}\n\n".format(x,y,speed,yaw,x_wind,y_wind,delta_s,delta_r))
 			# if abs(old_yaw-yaw) < 50 :
 			s_boat.rotate(angle=radians(old_yaw-yaw),axis=vector(0,-1,0),origin=vector(0,0,0))
 			mast_sail.rotate(angle=radians(old_yaw-yaw)+old_delta_s-delta_s,axis=vector(0,-1,0),origin=vector(0,0,0))
 			rudder.rotate(angle=radians(old_yaw-yaw),axis=vector(0,-1,0),origin=vector(0,0,0))
 			rudder.rotate(angle=old_delta_r-delta_r,axis=vector(0,-1,0))
-			wind.axis=vector(x_wind,0,y_wind)
 			print(old_delta_r-delta_r)
 			old_yaw,old_delta_s,old_delta_r=yaw,delta_s,delta_r
 			time.sleep(0.2)
