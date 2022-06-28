@@ -35,10 +35,11 @@ PORT = 65432
 HOST = "navio.local"
 
 class boat_state() :
-	def __init__(self,x,y,speed,roll,pitch,yaw,x_wind,y_wind,wind_dir) :
+	def __init__(self,x,y,speed,s_heading,roll,pitch,yaw,x_wind,y_wind,wind_dir) :
 		self.x=x
 		self.y=y
 		self.speed=speed
+		self.s_heading=s_heading
 		self.roll=roll
 		self.pitch=pitch
 		self.yaw=yaw
@@ -56,7 +57,9 @@ def th_gps(ubl) :
 				b_state.x=gpss[1]
 				b_state.y=gpss[2]
 			if gpss[0]=="speed" :
-				b_state.speed=float(gpss[1])/1000
+				b_state.speed,b_state.s_heading=gpss[0],gpss[1]*180/np.pi
+def th_speed(ubl) :
+
 
 def th_RPY(imu) :
 	i=0
@@ -68,13 +71,13 @@ def th_RPY(imu) :
 		b_state.yaw=np.mean(b_state.tab_rpy[2])
 		i+=1
 
-
 def th_wind(dev) :
 	while not b_state.end :
 		vent=wind(dev)
 		print(vent)
 		if vent[0]=="marche" :
 			b_state.x_wind,b_state.y_wind,b_state.wind_dir=vent[1:]
+			b_state.wind_dir*=180/np.pi
 
 
 def regu_sailboat(a,b,q=1) :

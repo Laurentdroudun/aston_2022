@@ -51,8 +51,14 @@ def gps(ubl) :
         lon,lat= int(str(msg).split(",")[1][11:])/(10**7),int(str(msg).split(",")[2][10:])/(10**7)
         return ["lon_lat",lon,lat]                      #Returns the longitude and the latitude 
     if msg.name() == "NAV_VELNED":
-        speed=str(msg).split(",")[5][8:]
-        return ["speed",speed]
+        outstr = str(msg).split(",")[1:]
+        outstr = "".join(outstr)
+        new_outsr = outstr.split(" ")
+        v = float(new_outsr[5].split("=")[1])*0.01
+        v_N = float(new_outsr[1].split("=")[1])*0.01
+        v_E = float(new_outsr[2].split("=")[1])*0.01
+        heading = arctan2(v_N,v_E)
+        return(v,heading)
 
 # if __name__=="__main__" :
 #     ubl=init_gps()
@@ -63,3 +69,21 @@ def gps(ubl) :
 #             if 
 #             lon,lat,speed=data[0],data[1],data[2]
 #             print("lon = {} | lat = {} | speed = {}".format(lon,lat,speed))
+
+def get_speed(ubl):
+    msg=ubl.receive_message()
+    if msg is None:
+        if opts.reopen:
+            ubl.close()
+            ubl = navio.ublox.UBlox("spi:0.0", baudrate=5000000, timeout=2)
+    if msg.name() == 'NAV_VELNED':
+        outstr = str(msg).split(",")[1:]
+        outstr = "".join(outstr)
+        new_outsr = outstr.split(" ")
+        v = float(new_outsr[5].split("=")[1])*0.01
+        # heading = float(new_outsr[6].split("=")[1])*10**(-5)
+        v_N = float(new_outsr[1].split("=")[1])*0.01
+        v_E = float(new_outsr[2].split("=")[1])*0.01
+        heading = arctan2(v_N,v_E)
+        return(v,heading)
+    pass

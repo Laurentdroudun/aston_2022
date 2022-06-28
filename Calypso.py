@@ -132,28 +132,38 @@ def init_Calypso(mac_addr="D8:2F:C8:9A:F8:A7") :
 
     infoService = dev.getServiceByUUID(btle.UUID(INFO_SERVICE))
     manuf_charac = infoService.getCharacteristics(INFO_MANUF_CHARAC_IN)[0]
-    # print('Manufacturer : ' + str(manuf_charac.read()))
+    print('Manufacturer : ' + str(manuf_charac.read()))
     model_charac = infoService.getCharacteristics(INFO_MODEL_CHARAC_IN)[0]
-    # print('Model : ' + str(model_charac.read()))
+    print('Model : ' + str(model_charac.read()))
 
-    # print('Turning on notification')
+    print('Turning on notification')
     ch = dataService.getCharacteristics()[0]
     dev.writeCharacteristic(ch.valHandle+1, b"\x01\x00")
     print("Battery : {}".format(dev.delegate.getBattery()))
     return dev
 
-def wind(dev) :
-    try:
+def reco() :
+    connected=False
+    i=1; attempts=10;
+    while not connected and i <= attempts :
+        try :
+            dev=btle.Peripheral(mac_addr,"random")
+            connected = True
+        except :
+            print("Failed to connect to Calypso {}/{} times".format(i,attempts))
+            i+=1
+    print("Reach to reconnect Calypso")
+    ch=dataService.getCharacteristics()[0]
+    dev.writeCharacteristic(ch.valHandle+1, b"\x01\x00")
+
+def data_cal(dev) :
+    try :
         dev.waitForNotifications(1.0)
-        return("marche",dev.delegate.getWind())
-    except:
-        return("bug",0,0,0)
-     # if(dev.delegate.getBattery() != 0):
-     #     print(dev.delegate.getBattery())
+    except :
+        print("Lost the siggnal of the Calypso, trying to reconnect ...")
+        reco(dev)
+    if (dev.delegate.getBattery() != 0) :
+        dev.delegate.getBattery()
+    wind=dev.delegate.getWind()
+    return wind
 
-
-    # print('Turning off notification')
-    # dev.writeCharacteristic(ch.valHandle+1, b"\x00\x00")
-    # #print('Turning off sensors')
-    # #sensors_ch.write(bytes("\00"))
-    # dev.disconnect()
