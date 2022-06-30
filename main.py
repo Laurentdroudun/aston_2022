@@ -25,6 +25,7 @@ from AccelGyroMag import init_imu_mpu					#renvoie imu comme mpu
 import Calypso
 from Calypso import init_Calypso,wind
 from vpython import *
+import os
 
 from threading import Thread
 
@@ -58,7 +59,6 @@ def th_gps(ubl) :
 				b_state.y=gpss[2]
 			if gpss[0]=="speed" :
 				b_state.speed,b_state.s_heading=gpss[0],gpss[1]*180/np.pi
-def th_speed(ubl) :
 
 
 def th_RPY(imu) :
@@ -131,7 +131,7 @@ if __name__ == "__main__" :
 	lsm,mpu=init_imu_lsm(),init_imu_mpu()
 	dev=init_Calypso()
 
-	b_state=boat_state(0,0,0,0,0,0,0,0,0)
+	b_state=boat_state(0,0,0,0,0,0,0,0,0,0)
 
 	#Threads :
 	threads=[]
@@ -146,23 +146,30 @@ if __name__ == "__main__" :
 
 	# while not b_state.end :
 	# 	x=[b_state.x,b_state.y,b_state.vx,b_state.vy,b_state.vz,]
-	#Simulation :
 	q=1
 	while not b_state.end :
+	#Simulation :
 		# print("Vent x : {}, Vent y : {}, Angle : {}".format(b_state.x_wind,b_state.y_wind,b_state.wind_dir))
 		# time.sleep(0.5)
-		with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-			s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
-			s.bind((HOST, PORT))
-			s.listen()
-			conn, addr = s.accept()
-			a=np.array([[-3],[4]])
-			b=np.array([[5],[4]])
-			with conn:
-				while True:
-					delta_r,q,delta_s=regu_sailboat(a,b,q)
-					# servo("Rudder",delta_r)
-					# servo("Sail",delta_s)
-					msg=[b_state.x,b_state.y,b_state.speed,b_state.yaw,1,0,delta_s,delta_r]
-					data=struct.pack('8f',*msg)
-					conn.sendall(data)
+		# with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+		# 	s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+		# 	s.bind((HOST, PORT))
+		# 	s.listen()
+		# 	conn, addr = s.accept()
+		# 	a=np.array([[-3],[4]])
+		# 	b=np.array([[5],[4]])
+		# 	with conn:
+		# 		while True:
+		# 			delta_r,q,delta_s=regu_sailboat(a,b,q)
+		# 			# servo("Rudder",delta_r)
+		# 			# servo("Sail",delta_s)
+		# 			msg=[b_state.x,b_state.y,b_state.speed,b_state.yaw,1,0,delta_s,delta_r]
+		# 			data=struct.pack('8f',*msg)
+		# 			conn.sendall(data)
+	#Logs saving :
+		log_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'log.txt')
+		log_f=open(log_file,"w")
+		delta_r,q,delta_s=regu_sailboat(a,b,q)
+		#lon,lat,speed,s_heading,yaw,x_wind,y_wind,wind_dir,
+		log_f.write("{} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(b_state.x,b_state.y,b_state.speed,b_state.s_heading,b_state.yaw,b_state.x_wind,b_state.y_wind,b_state.wind_dir,delta_r,delta_s))
+		time.sleep(0.2)

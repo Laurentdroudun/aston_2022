@@ -81,7 +81,6 @@ def get_speed(ubl):
         outstr = "".join(outstr)
         new_outsr = outstr.split(" ")
         v = float(new_outsr[5].split("=")[1])*0.01
-        # heading = float(new_outsr[6].split("=")[1])*10**(-5)
         v_N = float(new_outsr[1].split("=")[1])*0.01
         v_E = float(new_outsr[2].split("=")[1])*0.01
         heading = arctan2(v_N,v_E)

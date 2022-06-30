@@ -128,13 +128,13 @@ def init_Calypso(mac_addr="D8:2F:C8:9A:F8:A7") :
     dev = btle.Peripheral(mac_addr, "random")
     dev.setDelegate(delegateNotify())
     dataService = dev.getServiceByUUID(btle.UUID(DATA_SERVICE))
-    data_charac = dataService.getCharacteristics(DATA_DATA_CHARA_IN)[0]
 
-    infoService = dev.getServiceByUUID(btle.UUID(INFO_SERVICE))
-    manuf_charac = infoService.getCharacteristics(INFO_MANUF_CHARAC_IN)[0]
-    print('Manufacturer : ' + str(manuf_charac.read()))
-    model_charac = infoService.getCharacteristics(INFO_MODEL_CHARAC_IN)[0]
-    print('Model : ' + str(model_charac.read()))
+    # data_charac = dataService.getCharacteristics(DATA_DATA_CHARA_IN)[0]
+    # infoService = dev.getServiceByUUID(btle.UUID(INFO_SERVICE))
+    # manuf_charac = infoService.getCharacteristics(INFO_MANUF_CHARAC_IN)[0]
+    # print('Manufacturer : ' + str(manuf_charac.read()))
+    # model_charac = infoService.getCharacteristics(INFO_MODEL_CHARAC_IN)[0]
+    # print('Model : ' + str(model_charac.read()))
 
     print('Turning on notification')
     ch = dataService.getCharacteristics()[0]
